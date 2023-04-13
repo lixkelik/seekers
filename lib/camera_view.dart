@@ -28,7 +28,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   late final List<CameraDescription> cameras;
 
   /// Controller
-  late CameraController cameraController;
+  CameraController? cameraController;
 
   /// true when inference is ongoing
   late bool predicting;
@@ -73,14 +73,14 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
     cameraController =
         CameraController(cameras[0], ResolutionPreset.veryHigh, enableAudio: false);
 
-    cameraController.initialize().then((_) async {
+    cameraController!.initialize().then((_) async {
       // Stream of image passed to [onLatestImageAvailable] callback
-      await cameraController.startImageStream(onLatestImageAvailable);
+      await cameraController!.startImageStream(onLatestImageAvailable);
 
       /// previewSize is size of each image frame captured by controller
       ///
       /// 352x288 on iOS, 240p (320x240) on Android with ResolutionPreset.low
-      Size previewSize = cameraController.value.previewSize!;
+      Size previewSize = cameraController!.value.previewSize!;
 
       /// previewSize is size of raw input image to the model
       CameraViewSingleton.inputImageSize = previewSize;
@@ -96,13 +96,13 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     // Return empty container while the camera is not initialized
-    if (!cameraController.value.isInitialized) {
+    if(cameraController == null){
       return Container();
     }
-
+    
     return AspectRatio(
         aspectRatio: 9.0/16.0,
-        child: CameraPreview(cameraController));
+        child: CameraPreview(cameraController!));
   }
 
   /// Callback to receive each frame [CameraImage] perform inference on it
@@ -157,11 +157,11 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.paused:
-        cameraController.stopImageStream();
+        cameraController!.stopImageStream();
         break;
       case AppLifecycleState.resumed:
-        if (!cameraController.value.isStreamingImages) {
-          await cameraController.startImageStream(onLatestImageAvailable);
+        if (!cameraController!.value.isStreamingImages) {
+          await cameraController!.startImageStream(onLatestImageAvailable);
         }
         break;
       default:
@@ -171,7 +171,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    cameraController.dispose();
+    cameraController!.dispose();
     super.dispose();
   }
 }
