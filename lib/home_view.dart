@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:voisee/recognition.dart';
 import 'stats.dart';
 import 'package:voisee/box_widget.dart';
@@ -17,6 +18,9 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   /// Results to draw bounding boxes
   List<Recognition>? results;
+
+  //Initiating Flutter TTS
+  FlutterTts flutterTts = FlutterTts();
 
   /// Realtime stats
   Stats? stats;
@@ -102,6 +106,16 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  //This method will convert the text to spech
+  void textToSpeech(String theObject) async{
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setVolume(1);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setPitch(1);
+    await flutterTts.speak(theObject);
+  }
+
+
   /// Returns Stack of bounding boxes
   Widget boundingBoxes(List<Recognition>? results) {
     if (results == null) {
@@ -118,8 +132,24 @@ class _HomeViewState extends State<HomeView> {
 
   /// Callback to get inference results from [CameraView]
   void resultsCallback(List<Recognition> results) {
+    bool lastChecker = true;
+    if(this.results != null && results.isNotEmpty){
+      if(this.results!.isNotEmpty){
+        if(this.results!.last.label == results.last.label){
+          lastChecker = false;
+        }
+      }
+    }
+
     setState(() {
       this.results = results;
+      if(lastChecker){
+        if(results.isNotEmpty){
+          textToSpeech(results.last.label);
+        }
+      }
+      
+      
     });
   }
 

@@ -24,7 +24,7 @@ class Classifier {
   static const int INPUT_SIZE = 300;
 
   /// Result score threshold
-  static const double THRESHOLD = 0.5;
+  static const double THRESHOLD = 0.6;
 
   late ImageProcessor imageProcessor;
 
@@ -38,7 +38,7 @@ class Classifier {
   List<TfLiteType> _outputTypes = [];
 
   /// Number of results to show
-  static const int NUM_RESULTS = 10;
+  static const int NUM_RESULTS = 2;
 
   Classifier({
     Interpreter? interpreter,
