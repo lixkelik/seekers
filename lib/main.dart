@@ -1,37 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:voisee/home_view.dart';
+import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/view/main_page.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-class MyApp extends StatelessWidget {
+  @override
+  State<MyApp> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Object Detection TFLite',
-      home: HomeView(),
+      title: 'Seekers',
+      theme: ThemeData(
+        fontFamily: 'OpenSans',
+        navigationBarTheme:  NavigationBarThemeData(
+          backgroundColor: appOrange,
+          indicatorColor: selectedNavBar,
+          indicatorShape: const CircleBorder(
+            side: BorderSide(
+              color: selectedNavBar,
+              width: 15,
+              strokeAlign: StrokeAlign.center,
+            )
+          ),
+          labelTextStyle: MaterialStateProperty.all(
+              const TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              )
+            ), 
+          iconTheme: MaterialStateProperty.all(
+            const IconThemeData(
+              size: 39,
+              color: Colors.white,
+            )
+          ),
+          height: 90,
+        )
+      ),
+      
+      home: const MainPage(),
     );
   }
 }
