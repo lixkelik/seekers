@@ -114,8 +114,10 @@ class _ExplorePageState extends State<ExplorePage> {
     bool lastChecker = true;
     if(this.results != null && results.isNotEmpty){
       if(this.results!.isNotEmpty){
-        if(this.results!.last.label == results.last.label){
-          lastChecker = false;
+        if(results.length > 1){
+          if(this.results!.last.label == results.last.label){
+            lastChecker = false;
+          }
         }
       }
     }
