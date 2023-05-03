@@ -3,6 +3,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/tflite/recognition.dart';
 import 'package:seekers/tflite/box_widget.dart';
+import 'package:seekers/view/impaired/texttospeech.dart';
 
 import '../../tflite/camera_view.dart';
 
@@ -18,7 +19,7 @@ class _ExplorePageState extends State<ExplorePage> {
   /// Results to draw bounding boxes
   List<Recognition>? results;
 
-  FlutterTts flutterTts = FlutterTts();
+  
 
   String objText = '';
 
@@ -91,15 +92,7 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
-  //This method will convert the text to spech
-  void textToSpeech(String theObject) async{
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setVolume(1);
-    await flutterTts.setSpeechRate(0.5);
-    await flutterTts.setPitch(1);
-    await flutterTts.speak(theObject);
-    await flutterTts.setSilence(250);
-  }
+  
 
 
   /// Returns Stack of bounding boxes

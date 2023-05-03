@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/firebase_options.dart';
+import 'package:seekers/view/authentication/login_page.dart';
 import 'package:seekers/view/main_page.dart';
 import 'package:flutter/services.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatefulWidget {
 class _HomePageState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    User? user  = auth.currentUser;
     return MaterialApp(
       title: 'Seekers',
       theme: ThemeData(
@@ -53,7 +55,10 @@ class _HomePageState extends State<MyApp> {
         )
       ),
       
-      home: const MainPage(),
+      home: 
+          (user != null)
+            ? const MainPage()
+            : const LoginPage()
     );
   }
 }
