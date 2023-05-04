@@ -1,15 +1,15 @@
 class Game{
   String place;
-  List<Object> obj;
+  List<ItemObject> obj;
   String code;
   Game({required this.place, required this.obj, required this.code});
 }
 
-class Object{
+class ItemObject{
   String image;
   String objName;
   String description;
-  Object({required this.image, required this.objName, required this.description});
+  ItemObject({required this.image, required this.objName, required this.description});
 }
 
 

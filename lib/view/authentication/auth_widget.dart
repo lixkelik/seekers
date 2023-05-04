@@ -1,6 +1,8 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'dart:core';
 
+
+
 InputDecoration inputDec(String text,  {String? hint, bool isPassword = false, bool? obscure, ValueSetter<bool>? togglePass}) {
     return InputDecoration(
       labelText: text,

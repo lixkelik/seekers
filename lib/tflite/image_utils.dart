@@ -69,12 +69,12 @@ class ImageUtils {
         (r & 0xff);
   }
 
-  static void saveImage(imageLib.Image image, [int i = 0]) async {
+  static Future<String> saveImage(imageLib.Image image, String objText, [int i = 0]) async {
     List<int> jpeg = imageLib.JpegEncoder().encodeImage(image);
-    final appDir = await getTemporaryDirectory();
-    final appPath = appDir.path;
-    final fileOnDevice = File('$appPath/out$i.jpg');
+    final appDir = await getExternalStorageDirectory();
+    final appPath = appDir!.path;
+    final fileOnDevice = File('$appPath/$objText$i.jpg');
     await fileOnDevice.writeAsBytes(jpeg, flush: true);
-    print('Saved $appPath/out$i.jpg');
+    return '$appPath/$objText$i.jpg';
   }
 }

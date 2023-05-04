@@ -1,5 +1,5 @@
 import 'package:seekers/constant/firebase_constant.dart';
-import 'package:seekers/view/factory/user_factory.dart';
+import 'package:seekers/factory/user_factory.dart';
 
 Future<String> getUid() async{
   String uid;

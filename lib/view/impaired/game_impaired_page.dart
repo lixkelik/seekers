@@ -1,5 +1,8 @@
 import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/factory/game_factory.dart';
+import 'package:seekers/view/impaired/scan_obj_page.dart';
 import 'package:seekers/view/impaired/speechtotext.dart';
+import 'package:seekers/view/impaired/texttospeech.dart';
 
 class GameImpaired extends StatefulWidget {
   const GameImpaired({super.key});
@@ -13,7 +16,7 @@ class _GameImpairedState extends State<GameImpaired> {
   bool speechEnabled = false;
   String lastWord = '';
   TextEditingController textController = TextEditingController();
-
+  List<ItemObject> items = [];
 
   @override
   void initState() {
@@ -110,10 +113,7 @@ class _GameImpairedState extends State<GameImpaired> {
                     borderRadius: BorderRadius.all(Radius.circular(10))
                   ),
                   hintText: 'Enter text here Or talk',
-                  
                 ),
-      
-                
               ),
       
               const SizedBox(height: 30),
@@ -121,7 +121,16 @@ class _GameImpairedState extends State<GameImpaired> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    if(textController.text.isNotEmpty || textController.text != ''){
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => ScanObjectPage(textController.text, items))
+                      );
+                    }else{
+                      textToSpeech('Please tell me where are you first!');
+                    }
+                  },
                   
                   style: ElevatedButton.styleFrom(
                     backgroundColor: appOrange,

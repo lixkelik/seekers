@@ -1,7 +1,7 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/view/authentication/login_page.dart';
-import 'package:seekers/view/factory/user_factory.dart';
+import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/view/repository/firestore_repository.dart';
 import 'package:seekers/view/widget/skeleton.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
@@ -34,6 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Row(
               children: [
+                
+
                 Container(
                   width: 93,
                   height: 93,

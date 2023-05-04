@@ -88,7 +88,6 @@ class _MainPageState extends State<MainPage> {
             children: const [
               Center(child: CircularProgressIndicator()),
               Center(child: Text('Please wait...')),
-
             ],
           ),
         )

@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:camera/camera.dart';
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/tflite/recognition.dart';
 import 'package:seekers/tflite/box_widget.dart';
@@ -110,14 +109,12 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   /// Callback to get inference results from [CameraView]
-  void resultsCallback(List<Recognition> results) {
+  void resultsCallback(List<Recognition> results, CameraImage image) {
     bool lastChecker = true;
     if(this.results != null && results.isNotEmpty){
       if(this.results!.isNotEmpty){
-        if(results.length > 1){
-          if(this.results!.last.label == results.last.label){
-            lastChecker = false;
-          }
+        if(this.results!.last.label == results.last.label){
+          lastChecker = false;
         }
       }
     }
@@ -133,8 +130,4 @@ class _ExplorePageState extends State<ExplorePage> {
       });
     }
   }
-
-  static const BOTTOM_SHEET_RADIUS = Radius.circular(24.0);
-  static const BORDER_RADIUS_BOTTOM_SHEET = BorderRadius.only(
-      topLeft: BOTTOM_SHEET_RADIUS, topRight: BOTTOM_SHEET_RADIUS);
 }

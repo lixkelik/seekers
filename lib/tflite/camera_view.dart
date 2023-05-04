@@ -10,7 +10,7 @@ import 'package:seekers/tflite/camera_view_singletion.dart';
 /// [CameraView] sends each frame for inference
 class CameraView extends StatefulWidget {
   /// Callback to pass results after inference to [HomeView]
-  final Function(List<Recognition> recognitions) resultsCallback;
+  final Function(List<Recognition> recognitions, CameraImage) resultsCallback;
 
 
   /// Constructor
@@ -127,7 +127,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
     
 
     // pass results to HomeView
-    widget.resultsCallback(inferenceResults["recognitions"]);
+    widget.resultsCallback(inferenceResults["recognitions"], cameraImage);
 
     
 
@@ -136,7 +136,6 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
       setState(() {
         predicting = false;
       });
-
     }
   }
 
