@@ -8,18 +8,24 @@ import 'package:seekers/view/impaired/texttospeech.dart';
 
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  int userRoles;
+  ProfilePage(this.userRoles, {super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState(userRoles);
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  int userRoles;
+  _ProfilePageState(this.userRoles);
+  
 
   UserSeekers? user;
   
   @override
   void initState() {
+    pageSpeech();
     _getUserData();
     super.initState();
   }
@@ -255,6 +261,10 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       this.user = user;
     });
+  }
+
+   void pageSpeech(){
+    textToSpeech('This is Profile page!');
   }
 
 }

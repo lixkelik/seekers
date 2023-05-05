@@ -140,7 +140,7 @@ class _ScanObjectPageState extends State<ScanObjectPage> {
                                           try {
                                             String image = await ImageUtils.saveImage(rgbImage, objText);
                                             if(image != ''){
-                                              textToSpeech('$objText Saved! Now let\'s describe the object by touching it. You can describe the texture, the weight, the size, and the function of the object!');
+                                              textToSpeech('$objText Saved! Now let\'s describe the object by touching it. You can describe the texture, the weight, the size, or the function of the object!');
                                               // ignore: use_build_context_synchronously
                                               Navigator.pushReplacement(
                                                 context, 
@@ -188,9 +188,6 @@ class _ScanObjectPageState extends State<ScanObjectPage> {
       ),
     );
   }
-
-  
-
 
   /// Returns Stack of bounding boxes
   Widget boundingBoxes(List<Recognition>? results) {

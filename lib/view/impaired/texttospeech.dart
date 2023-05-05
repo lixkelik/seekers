@@ -3,7 +3,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 FlutterTts flutterTts = FlutterTts();
 
 double volume = 1;
-double speechRate = 0.5;
+double speechRate = 0.4;
 
 void textToSpeech(String theObject) async{
   await flutterTts.setLanguage("en-US");

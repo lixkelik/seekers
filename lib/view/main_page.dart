@@ -75,8 +75,8 @@ class _MainPageState extends State<MainPage> {
           (userRoles == 1)
           ? const GameImpaired()
           : const GamePeer(),
-          const HistoryPage(),
-          const ProfilePage(),
+          HistoryPage(userRoles!),
+          ProfilePage(userRoles!),
           //add page here
         ][currentPageIndex],
       );

@@ -20,6 +20,7 @@ class _GameImpairedState extends State<GameImpaired> {
 
   @override
   void initState() {
+    pageSpeech();
     _initSpeech();
     super.initState();
   }
@@ -123,9 +124,12 @@ class _GameImpairedState extends State<GameImpaired> {
                 child: ElevatedButton(
                   onPressed: (){
                     if(textController.text.isNotEmpty || textController.text != ''){
+                      String text = textController.text;
+                      textController.clear();
+                      items.clear();
                       Navigator.push(
                         context, 
-                        MaterialPageRoute(builder: (context) => ScanObjectPage(textController.text, items))
+                        MaterialPageRoute(builder: (context) => ScanObjectPage(text, items))
                       );
                     }else{
                       textToSpeech('Please tell me where are you first!');
@@ -155,4 +159,9 @@ class _GameImpairedState extends State<GameImpaired> {
       ),
     );
   }
+
+  void pageSpeech(){
+    textToSpeech('This is Game Page!, lets play a game. Start by tell me where you are.');
+  }
+
 }

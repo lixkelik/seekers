@@ -25,6 +25,12 @@ class _ExplorePageState extends State<ExplorePage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
+  void initState() {
+    pageSpeech();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -130,4 +136,9 @@ class _ExplorePageState extends State<ExplorePage> {
       });
     }
   }
+
+  void pageSpeech(){
+    textToSpeech('This is Explore Page!');
+  }
+
 }

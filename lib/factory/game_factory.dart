@@ -1,8 +1,19 @@
+import 'package:seekers/constant/firebase_constant.dart';
+
 class Game{
   String place;
   List<ItemObject> obj;
   String code;
   Game({required this.place, required this.obj, required this.code});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'createdBy': auth.currentUser!.uid,
+      'place': place,
+      'obj': obj.map((o) => o.toMap()).toList(),
+      'code': code,
+    };
+  }
 }
 
 class ItemObject{
@@ -10,6 +21,14 @@ class ItemObject{
   String objName;
   String description;
   ItemObject({required this.image, required this.objName, required this.description});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'image': image,
+      'objName': objName,
+      'description': description,
+    };
+  }
 }
 
 

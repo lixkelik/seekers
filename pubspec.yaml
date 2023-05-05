@@ -44,7 +44,7 @@ dependencies:
   cloud_firestore: ^4.5.3
   firebase_auth: ^4.4.2
   speech_to_text: ^6.1.1
-  flutter_exif_rotation: ^0.5.1
+  firebase_storage: ^11.1.2
 
 dev_dependencies:
   flutter_test:

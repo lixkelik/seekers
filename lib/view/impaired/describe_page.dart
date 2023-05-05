@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
+import 'package:seekers/view/impaired/loading_page.dart';
 import 'package:seekers/view/impaired/scan_obj_page.dart';
 import 'package:seekers/view/impaired/speechtotext.dart';
-import 'package:seekers/view/impaired/success_page.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
 
 class DescribePage extends StatefulWidget {
@@ -84,7 +84,7 @@ class _DescribePageState extends State<DescribePage> {
             child: DraggableScrollableSheet(
               initialChildSize: 0.65,
               minChildSize: 0.5,
-              maxChildSize: 0.68,
+              maxChildSize: 0.65,
               builder:(_, ScrollController scrollController) => 
                 Container(
                   width: double.maxFinite,
@@ -180,15 +180,16 @@ class _DescribePageState extends State<DescribePage> {
                                   String description = textController.text;
                                   ItemObject item = ItemObject(image: image, objName: objName, description: description);
                                   objects.add(item);
-                                  if(objects.length < 5){
+                                  if(objects.length < 5) {
                                     Navigator.pushReplacement(
                                       context, 
                                       MaterialPageRoute(builder: (context) => ScanObjectPage(title, objects))
                                     );
                                   }else{
+                                    Game gameObj = Game(place: title, obj: objects, code: '');
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => SuccessPage(title, objects))
+                                      MaterialPageRoute(builder: (context) => LoadingPage(gameObj))
                                     );
                                   }
                                 }else{
