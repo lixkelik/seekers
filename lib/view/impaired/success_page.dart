@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
@@ -122,7 +124,8 @@ class _SuccessPageState extends State<SuccessPage> {
                     margin: const EdgeInsets.only(bottom: 25),
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () async{
+                        await deletePhoto();
                         Navigator.pop(context);
                       },
                       
@@ -154,6 +157,16 @@ class _SuccessPageState extends State<SuccessPage> {
 
   void pageSpeech(){
     textToSpeech('Congratulations! You finish the game, share the code with your friend. The code is ${gameObj.code}');
+  }
+
+  Future<void> deletePhoto() async{
+    for(int i = 0; i < 5; i++){
+      final fileOnDevice = File(gameObj.obj[i].image);
+
+      if(await fileOnDevice.exists()){
+        await fileOnDevice.delete();
+      }
+    }
   }
 
 }

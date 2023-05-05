@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:path_provider/path_provider.dart';
+import 'package:seekers/constant/constant_builder.dart';
 
 /// ImageUtils
 class ImageUtils {
@@ -73,13 +74,14 @@ class ImageUtils {
     List<int> jpeg = imageLib.JpegEncoder().encodeImage(image);
     final appDir = await getTemporaryDirectory();
     final appPath = appDir.path;
-    final fileOnDevice = File('$appPath/$objText$i.jpg');
+    final fileOnDevice = File('$appPath/$objText.jpg');
 
     if(await fileOnDevice.exists()){
+      await FileImage(fileOnDevice).evict();
       await fileOnDevice.delete();
     }
 
-    await fileOnDevice.writeAsBytes(jpeg);
-    return '$appPath/$objText$i.jpg';
+    await fileOnDevice.writeAsBytes(jpeg, mode: FileMode.write, flush: true);
+    return '$appPath/$objText.jpg';
   }
 }

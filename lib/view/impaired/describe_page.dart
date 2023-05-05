@@ -36,10 +36,13 @@ class _DescribePageState extends State<DescribePage> {
   bool speechEnabled = false;
   String lastWord = '';
   TextEditingController textController = TextEditingController();
-
+  File? img;
+  
   @override
   void initState() {
+    img = File(image);
     _initSpeech();
+    _evictImage();
     super.initState();
   }
 
@@ -74,10 +77,14 @@ class _DescribePageState extends State<DescribePage> {
             angle: 3.14 / 2,
             child: SizedBox(
               height: 392.75,
-              child: Image.file(
-                File(image),
-                fit: BoxFit.cover,
-              ),
+              child: 
+              (img != null)
+              ? Image.file(
+                  img!,
+                  fit: BoxFit.cover,
+                  key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+                )
+              : const Center(child: CircularProgressIndicator(),)
             ),
           ),
           Align(
@@ -224,5 +231,9 @@ class _DescribePageState extends State<DescribePage> {
         ]
       ),
     );
+  }
+  Future<void> _evictImage()async{
+    await FileImage(img!).evict();
+    setState(() {});
   }
 }

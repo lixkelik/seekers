@@ -203,12 +203,6 @@ class _ScanObjectPageState extends State<ScanObjectPage> {
     );
   }
 
-  void stopCamera(CameraController cameraController){
-    if(cameraController.value.isStreamingImages){
-      cameraController.stopImageStream();
-    }
-  }
-
   /// Callback to get inference results from [CameraView]
   void resultsCallback(List<Recognition> results, CameraImage image) {
     bool lastChecker = true;

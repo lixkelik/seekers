@@ -22,6 +22,7 @@ class _GameImpairedState extends State<GameImpaired> {
   void initState() {
     pageSpeech();
     _initSpeech();
+    items = [];
     super.initState();
   }
 
