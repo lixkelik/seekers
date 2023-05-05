@@ -9,6 +9,7 @@ class Game{
   Map<String, dynamic> toMap() {
     return {
       'createdBy': auth.currentUser!.uid,
+      'timePlayed': Timestamp.now(),
       'place': place,
       'obj': obj.map((o) => o.toMap()).toList(),
       'code': code,
