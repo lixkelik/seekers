@@ -10,7 +10,6 @@ const Color appYellow = Color(0xffFFC000);
 const Color fontColor = Color(0xff3F3F3F);
 const Color selectedNavBar = Color(0xffFFC000);
 
-
 const appLogo = 'assets/image/seekers_logo/app_logo.png';
 const splashLogo = 'assets/image/seekers_logo/splash_logo.png';
 
