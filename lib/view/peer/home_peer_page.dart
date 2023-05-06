@@ -124,7 +124,7 @@ class _HomePeerPageState extends State<HomePeerPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Let's Play a Game!", style: TextStyle(fontSize: 16)),
-                    Image.asset(profilePic, width: 50),
+                    Image.asset(clickMe, width: 50),
                   ],
                 ),
               ),
@@ -158,11 +158,7 @@ class _HomePeerPageState extends State<HomePeerPage> {
                     Text("Today's fun article!",
                         style: TextStyle(fontSize: 16)),
                     SizedBox(height: 10),
-                    Container(
-                      width: double.infinity,
-                      height: 150,
-                      color: Colors.grey[300],
-                    ),
+                    Image.asset(articleBg, width: double.infinity),
                     SizedBox(height: 10),
                     Text('What is an Airport',
                         style: TextStyle(
