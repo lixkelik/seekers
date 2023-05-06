@@ -47,8 +47,5 @@ class ArticlePeer extends StatelessWidget {
         ]),
       ),
     );
-    // return const Center(
-    //   child: Text('article peer page'),
-    // );
   }
 }
