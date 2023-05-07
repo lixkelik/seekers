@@ -10,7 +10,6 @@ const Color appYellow = Color(0xffFFC000);
 const Color fontColor = Color(0xff3F3F3F);
 const Color selectedNavBar = Color(0xffFFC000);
 
-
 const appLogo = 'assets/image/seekers_logo/app_logo.png';
 const splashLogo = 'assets/image/seekers_logo/splash_logo.png';
 
@@ -31,3 +30,9 @@ const profilePic = 'assets/image/illustration/profile.png';
 const selectRoles = 'assets/image/illustration/select_roles.png';
 const walkingMan = 'assets/image/illustration/walking_man.png';
 const notFound = 'assets/image/illustration/not_found.png';
+const inspired = 'assets/image/illustration/inspired.png';
+
+const badge1 = 'assets/image/illustration/badge1.png';
+const badge2 = 'assets/image/illustration/badge2.png';
+const badge3 = 'assets/image/illustration/badge3.png';
+const badge4 = 'assets/image/illustration/badge4.png';
