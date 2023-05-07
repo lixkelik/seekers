@@ -60,7 +60,7 @@ class _HistoryImpairedPageState extends State<HistoryImpairedPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Image(image: AssetImage(notFound)),
+                          const Image(image: AssetImage(inspired)),
                           Text(
                             'No Game Found\nPlay a game first!',
                             textAlign: TextAlign.center,
