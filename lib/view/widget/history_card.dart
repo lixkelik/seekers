@@ -26,11 +26,14 @@ class HistoryCard extends StatelessWidget {
               width: 85,
               height: 125,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const Center(
-                child: Text(
-                  'Error',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 174, 174, 174)
+              errorBuilder: (context, error, stackTrace) => const SizedBox(
+                width: 85,
+                child: Center(
+                  child: Text(
+                    'Error',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 174, 174, 174)
+                    ),
                   ),
                 ),
               ),
