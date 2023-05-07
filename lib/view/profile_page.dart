@@ -25,7 +25,9 @@ class _ProfilePageState extends State<ProfilePage> {
   
   @override
   void initState() {
-    pageSpeech();
+    if(userRoles == 1){
+      pageSpeech(); 
+    }
     _getUserData();
     super.initState();
   }
@@ -40,8 +42,6 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Row(
               children: [
-                
-
                 Container(
                   width: 93,
                   height: 93,

@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
-import 'package:seekers/view/history_page.dart';
+import 'package:seekers/view/impaired/history_impaired_page.dart';
 import 'package:seekers/view/impaired/game_impaired_page.dart';
 import 'package:seekers/view/peer/game_peer_page.dart';
+import 'package:seekers/view/peer/history_peer_page.dart';
 import 'package:seekers/view/peer/home_peer_page.dart';
 import 'package:seekers/view/profile_page.dart';
 
@@ -29,56 +30,75 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     if(userRoles != null){
-      return Scaffold(
-        bottomNavigationBar: NavigationBar(
-          animationDuration: const Duration(milliseconds: 1000),
-          destinations:  <Widget> [
-            (userRoles == 1) 
-            ? const NavigationDestination(
-              icon: Icon(Icons.explore_outlined),
-              label: 'Explore',
-            )
-            : const NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            (userRoles==1)
-            ? const NavigationDestination(
-                icon: Icon(Icons.gamepad_outlined),
-                label: 'Game',
+      return WillPopScope(
+        onWillPop: () async{
+        final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit?'),
+            actions: [
+              TextButton(
+                  child: const Text('No'),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                TextButton(
+                  child: const Text('Yes'),
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+            ],
+          )
+        );
+        return shouldExit ?? false;
+      },
+        child: Scaffold(
+          bottomNavigationBar: NavigationBar(
+            animationDuration: const Duration(milliseconds: 1000),
+            destinations:  <Widget> [
+              (userRoles == 1) 
+              ? const NavigationDestination(
+                icon: Icon(Icons.explore_outlined),
+                label: 'Explore',
               )
-            : const NavigationDestination(
+              : const NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
+              ),
+              const NavigationDestination(
                 icon: Icon(Icons.gamepad_outlined),
                 label: 'Game',
               ),
-            const NavigationDestination(
-              icon: Icon(Icons.access_time),
-              label: 'History',
-            ),
-            const NavigationDestination(
-              icon: Icon(Icons.account_circle_outlined),
-              label: 'Profile',
-            )
-          ],
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          selectedIndex: currentPageIndex,
+              const NavigationDestination(
+                icon: Icon(Icons.access_time),
+                label: 'History',
+              ),
+              const NavigationDestination(
+                icon: Icon(Icons.account_circle_outlined),
+                label: 'Profile',
+              )
+            ],
+            onDestinationSelected: (int index) {
+              setState(() {
+                currentPageIndex = index;
+              });
+            },
+            selectedIndex: currentPageIndex,
+          ),
+      
+          body: <Widget>[
+            (userRoles == 1)
+            ? const ExplorePage()
+            : const HomePeerPage(),
+            (userRoles == 1)
+            ? const GameImpaired()
+            : const GamePeer(),
+            (userRoles == 1)
+            ? HistoryImpairedPage(auth.currentUser!.uid)
+            : HistoryPeerPage(auth.currentUser!.uid),
+            ProfilePage(userRoles!),
+            //add page here
+          ][currentPageIndex],
         ),
-
-        body: <Widget>[
-          (userRoles == 1)
-          ? const ExplorePage()
-          : const HomePeerPage(),
-          (userRoles == 1)
-          ? const GameImpaired()
-          : const GamePeer(),
-          HistoryPage(userRoles!),
-          ProfilePage(userRoles!),
-          //add page here
-        ][currentPageIndex],
       );
     } else {
       return Scaffold(
@@ -87,7 +107,14 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Center(child: CircularProgressIndicator()),
-              Center(child: Text('Please wait...')),
+              SizedBox(height: 10,),
+              Center(
+                child: Text('Please wait...',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: fontColor
+                  ))
+              ),
             ],
           ),
         )

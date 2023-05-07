@@ -30,3 +30,4 @@ const clickMe = 'assets/image/illustration/click_me.png';
 const profilePic = 'assets/image/illustration/profile.png';
 const selectRoles = 'assets/image/illustration/select_roles.png';
 const walkingMan = 'assets/image/illustration/walking_man.png';
+const notFound = 'assets/image/illustration/not_found.png';

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/impaired/loading_page.dart';
 import 'package:seekers/view/impaired/scan_obj_page.dart';
@@ -185,7 +186,7 @@ class _DescribePageState extends State<DescribePage> {
                               onPressed: (){
                                 if(textController.text.isNotEmpty || textController.text != ''){
                                   String description = textController.text;
-                                  ItemObject item = ItemObject(image: image, objName: objName, description: description);
+                                  ItemObject item = ItemObject(image: image, objName: objName, description: description, colaboratorDesc: '');
                                   objects.add(item);
                                   if(objects.length < 5) {
                                     Navigator.pushReplacement(
@@ -193,7 +194,7 @@ class _DescribePageState extends State<DescribePage> {
                                       MaterialPageRoute(builder: (context) => ScanObjectPage(title, objects))
                                     );
                                   }else{
-                                    Game gameObj = Game(place: title, obj: objects, code: '');
+                                    Game gameObj = Game(place: title, obj: objects, code: '', createdTime: Timestamp.now(), createdBy: '', playedBy: '-', isPlayed: false);
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => LoadingPage(gameObj))

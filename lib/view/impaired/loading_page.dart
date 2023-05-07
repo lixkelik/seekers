@@ -1,4 +1,5 @@
 import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/impaired/success_page.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
@@ -61,6 +62,9 @@ class _LoadingPageState extends State<LoadingPage> {
   Future<void> saveObj() async {
     String code = await codeGenerator();
     gameObj.code = code;
+
+    gameObj.createdBy = auth.currentUser!.uid;
+
     List<String> downloadUrl = await uploadImage(gameObj);
 
     for(int i = 0; i < 5; i++){

@@ -9,3 +9,4 @@ export 'package:firebase_storage/firebase_storage.dart';
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
+CollectionReference getGame = db.collection('games');

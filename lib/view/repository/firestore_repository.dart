@@ -64,6 +64,25 @@ Future<List<String>> uploadImage(Game gameObj) async {
   return downloadUrls;
 }
 
+Future<List<Game>> getGameCollection(String userId) async{
+  List<Game> gameList = [];
+  QuerySnapshot querySnapshot = await db.collection('games').where('createdBy', isEqualTo: userId).get();
+
+  for(var doc in querySnapshot.docs){
+    Game game = Game(
+      code: doc['code'],
+      obj: doc['obj'],
+      createdBy: doc['createdBy'], 
+      createdTime: doc['createdTime'],
+      place: doc['place'],
+      playedBy: doc['playedBy'],
+      isPlayed: doc['isPlayed'],
+    );
+    gameList.add(game);
+  }
+  return gameList;
+}
+
 Future<void> saveToFirestore(Game game) async {
   final gameRef = db.collection('games').doc(game.code);
   await gameRef.set(game.toMap());
