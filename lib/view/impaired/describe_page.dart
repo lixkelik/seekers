@@ -163,7 +163,7 @@ class _DescribePageState extends State<DescribePage> {
                             
                           const SizedBox(height: 15),
                           TextField(
-                            maxLength: 300,
+                            maxLength: 150,
                             controller: textController,
                             decoration: const InputDecoration(
                               fillColor: Color(0xffE9E9E9),
@@ -186,7 +186,7 @@ class _DescribePageState extends State<DescribePage> {
                               onPressed: (){
                                 if(textController.text.isNotEmpty || textController.text != ''){
                                   String description = textController.text;
-                                  ItemObject item = ItemObject(image: image, objName: objName, description: description, colaboratorDesc: '');
+                                  ItemObject item = ItemObject(image: image, objName: objName, description: description, colaboratorDesc: '', colaboratorUid: '');
                                   objects.add(item);
                                   if(objects.length < 5) {
                                     Navigator.pushReplacement(

@@ -79,7 +79,7 @@ class _HistoryImpairedPageState extends State<HistoryImpairedPage> {
                         (snapshot.data!).docs.map((e) {
                           
                           List<dynamic> items =  e['obj'];
-                          List<ItemObject> itemObject = items.map((e) => ItemObject(image: e['image'], objName: e['objName'], description: e['description'], colaboratorDesc: e['colaboratorDesc'],)).toList();
+                          List<ItemObject> itemObject = items.map((e) => ItemObject(image: e['image'], objName: e['objName'], description: e['description'], colaboratorDesc: e['colaboratorDesc'], colaboratorUid: e['colaboratorUid'])).toList();
                           Game gameObj = Game(place: e['place'], obj: itemObject, code: e['code'], createdBy: e['createdBy'], playedBy: e['playedBy'], createdTime: e['createdTime'], isPlayed: e['isPlayed']);
                           return HistoryCard(gameObj);
                         }).toList(),

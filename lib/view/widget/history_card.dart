@@ -1,7 +1,7 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:intl/intl.dart';
-import 'package:seekers/view/widget/skeleton.dart';
+import 'package:seekers/view/review_page.dart';
 
 class HistoryCard extends StatelessWidget {
   final Game gameObj;
@@ -116,7 +116,7 @@ class HistoryCard extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                    //  Navigator.push(context, MaterialPageRoute(builder: (context) => const PageHere()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewPage(gameObj, 0)));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
