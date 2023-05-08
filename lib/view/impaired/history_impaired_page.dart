@@ -2,7 +2,7 @@ import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
-import 'package:seekers/view/widget/history_card.dart';
+import 'package:seekers/view/widget/history_impaired_card.dart';
 import 'package:seekers/view/widget/skeleton.dart';
 
 class HistoryImpairedPage extends StatefulWidget {
@@ -79,9 +79,9 @@ class _HistoryImpairedPageState extends State<HistoryImpairedPage> {
                         (snapshot.data!).docs.map((e) {
                           
                           List<dynamic> items =  e['obj'];
-                          List<ItemObject> itemObject = items.map((e) => ItemObject(image: e['image'], objName: e['objName'], description: e['description'], colaboratorDesc: e['colaboratorDesc'], colaboratorUid: e['colaboratorUid'])).toList();
-                          Game gameObj = Game(place: e['place'], obj: itemObject, code: e['code'], createdBy: e['createdBy'], playedBy: e['playedBy'], createdTime: e['createdTime'], isPlayed: e['isPlayed']);
-                          return HistoryCard(gameObj);
+                          List<ItemObject> itemObject = items.map((e) => ItemObject(image: e['image'], objName: e['objName'], description: e['description'], colaboratorDesc: e['colaboratorDesc'])).toList();
+                          Game gameObj = Game(place: e['place'], obj: itemObject, code: e['code'], createdBy: e['createdBy'], playedBy: e['playedBy'], createdTime: e['createdTime'], isPlayed: e['isPlayed'], colaboratorUid: e['colaboratorUid']);
+                          return HistoryImpairedCard(gameObj, uid);
                         }).toList(),
                     );
                   }

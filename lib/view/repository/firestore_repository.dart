@@ -71,12 +71,13 @@ Future<List<Game>> getGameCollection(String userId) async{
   for(var doc in querySnapshot.docs){
     Game game = Game(
       code: doc['code'],
-      obj: doc['obj'],
       createdBy: doc['createdBy'], 
       createdTime: doc['createdTime'],
       place: doc['place'],
       playedBy: doc['playedBy'],
       isPlayed: doc['isPlayed'],
+      colaboratorUid: doc['colaboratorUid'],
+      obj: doc['obj'],
     );
     gameList.add(game);
   }

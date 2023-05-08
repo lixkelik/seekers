@@ -186,7 +186,7 @@ class _DescribePageState extends State<DescribePage> {
                               onPressed: (){
                                 if(textController.text.isNotEmpty || textController.text != ''){
                                   String description = textController.text;
-                                  ItemObject item = ItemObject(image: image, objName: objName, description: description, colaboratorDesc: '', colaboratorUid: '');
+                                  ItemObject item = ItemObject(image: image, objName: objName, description: description, colaboratorDesc: '-');
                                   objects.add(item);
                                   if(objects.length < 5) {
                                     Navigator.pushReplacement(
@@ -194,7 +194,7 @@ class _DescribePageState extends State<DescribePage> {
                                       MaterialPageRoute(builder: (context) => ScanObjectPage(title, objects))
                                     );
                                   }else{
-                                    Game gameObj = Game(place: title, obj: objects, code: '', createdTime: Timestamp.now(), createdBy: '', playedBy: '-', isPlayed: false);
+                                    Game gameObj = Game(place: title, obj: objects, code: '', createdTime: Timestamp.now(), createdBy: '', playedBy: '-', isPlayed: false, colaboratorUid: '-');
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => LoadingPage(gameObj))

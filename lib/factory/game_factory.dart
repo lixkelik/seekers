@@ -8,7 +8,8 @@ class Game{
   String playedBy;
   Timestamp createdTime;
   bool isPlayed;
-  Game({required this.place, required this.obj, required this.code, required this.createdBy, required this.playedBy, required this.createdTime, required this.isPlayed});
+  String colaboratorUid;
+  Game({required this.place, required this.obj, required this.code, required this.createdBy, required this.playedBy, required this.createdTime, required this.isPlayed, required this.colaboratorUid});
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,7 +19,8 @@ class Game{
       'obj': obj.map((o) => o.toMap()).toList(),
       'code': code,
       'playedBy': playedBy,
-      'isPlayed': isPlayed
+      'isPlayed': isPlayed,
+      'colaboratorUid': colaboratorUid
     };
   }
 }
@@ -28,8 +30,7 @@ class ItemObject{
   String objName;
   String description;
   String colaboratorDesc;
-  String colaboratorUid;
-  ItemObject({required this.image, required this.objName, required this.description, required this.colaboratorDesc, required this.colaboratorUid});
+  ItemObject({required this.image, required this.objName, required this.description, required this.colaboratorDesc});
 
   Map<String, dynamic> toMap() {
     return {
@@ -37,7 +38,6 @@ class ItemObject{
       'objName': objName,
       'description': description,
       'colaboratorDesc': colaboratorDesc,
-      'colaboratorUid': colaboratorUid
     };
   }
 }

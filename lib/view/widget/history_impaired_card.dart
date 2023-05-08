@@ -3,9 +3,10 @@ import 'package:seekers/factory/game_factory.dart';
 import 'package:intl/intl.dart';
 import 'package:seekers/view/review_page.dart';
 
-class HistoryCard extends StatelessWidget {
+class HistoryImpairedCard extends StatelessWidget {
   final Game gameObj;
-  const HistoryCard(this.gameObj, {super.key});
+  final String uid;
+  const HistoryImpairedCard(this.gameObj, this.uid, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +117,7 @@ class HistoryCard extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewPage(gameObj, 0)));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewPage(gameObj, 0, uid, 1)));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
