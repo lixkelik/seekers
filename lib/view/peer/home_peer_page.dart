@@ -149,7 +149,7 @@ class _HomePeerPageState extends State<HomePeerPage> {
                 },
                 // tampilannya
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  height: 300,
                   decoration: BoxDecoration(
                     color: appYellow,
                     borderRadius: BorderRadius.circular(10),
@@ -166,7 +166,12 @@ class _HomePeerPageState extends State<HomePeerPage> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        color: appYellow,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10)),
+                            color: appYellow),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -184,22 +189,33 @@ class _HomePeerPageState extends State<HomePeerPage> {
                           ],
                         ),
                       ),
-                      Container(
-                        color: appOrange,
-                        child: Row(
-                          children: <Widget>[
-                            Text('Read More', style: TextStyle(fontSize: 16)),
-                            Icon(Icons.arrow_right),
-                          ],
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
+                              color: appOrange),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            child: Row(
+                              children: <Widget>[
+                                Text('Read More',
+                                    style: TextStyle(fontSize: 16)),
+                                Icon(Icons.arrow_right),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
 
             // end page
+            SizedBox(height: 50)
           ],
         ),
       ),
