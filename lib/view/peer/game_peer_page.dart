@@ -12,10 +12,15 @@ class _GamePeerState extends State<GamePeer> {
   TextEditingController textController = TextEditingController();
 
   @override
-  Future<void> initState() async {
+  void initState() {
+    _addOfficialGame();
+    super.initState();
+  }
+
+  void _addOfficialGame() async {
     OfficialGameService dummyDataService = OfficialGameService();
     await dummyDataService.addOfficialGame();
-    super.initState();
+    setState(() {});
   }
 
   @override
