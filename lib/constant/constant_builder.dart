@@ -35,3 +35,9 @@ const badge1 = 'assets/image/illustration/badge1.png';
 const badge2 = 'assets/image/illustration/badge2.png';
 const badge3 = 'assets/image/illustration/badge3.png';
 const badge4 = 'assets/image/illustration/badge4.png';
+
+const dummy_bag = 'assets/image/dummy_data/bag.jpg';
+const dummy_book = 'assets/image/dummy_data/book.png';
+const dummy_chair = 'assets/image/dummy_data/chair.png';
+const dummy_glasses = 'assets/image/dummy_data/glasses.png';
+const dummy_pencil = 'assets/image/dummy_data/pencil.png';
