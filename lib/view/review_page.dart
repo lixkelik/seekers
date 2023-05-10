@@ -1,6 +1,6 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
-import 'package:seekers/review_finish_page.dart';
+import 'package:seekers/view/review_finish_page.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
 import 'package:seekers/view/widget/skeleton.dart';
 

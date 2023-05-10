@@ -88,7 +88,7 @@ class _MainPageState extends State<MainPage> {
           body: <Widget>[
             (userRoles == 1)
             ? const ExplorePage()
-            : const HomePeerPage(),
+            : HomePeerPage(updateCurrentPageIndex: updateCurrentPageIndex,),
             (userRoles == 1)
             ? const GameImpaired()
             : const GamePeer(),
@@ -131,7 +131,11 @@ class _MainPageState extends State<MainPage> {
         });
       }
     }
-
   }
 
+  void updateCurrentPageIndex(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+  }
 }
