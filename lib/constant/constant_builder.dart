@@ -9,6 +9,7 @@ const Color green = Color(0xff74E087);
 const Color appYellow = Color(0xffFFC000);
 const Color fontColor = Color(0xff3F3F3F);
 const Color selectedNavBar = Color(0xffFFC000);
+const Color whiteGrey = Color(0xffF6F6F6);
 
 const appLogo = 'assets/image/seekers_logo/app_logo.png';
 const splashLogo = 'assets/image/seekers_logo/splash_logo.png';
@@ -35,3 +36,9 @@ const badge1 = 'assets/image/illustration/badge1.png';
 const badge2 = 'assets/image/illustration/badge2.png';
 const badge3 = 'assets/image/illustration/badge3.png';
 const badge4 = 'assets/image/illustration/badge4.png';
+
+const dummy_bag = 'assets/image/dummy_data/bag.jpg';
+const dummy_book = 'assets/image/dummy_data/book.png';
+const dummy_chair = 'assets/image/dummy_data/chair.png';
+const dummy_glasses = 'assets/image/dummy_data/glasses.png';
+const dummy_pencil = 'assets/image/dummy_data/pencil.png';
