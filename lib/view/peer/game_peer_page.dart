@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
+import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/service/official_game_service.dart';
+import 'package:seekers/view/widget/skeleton.dart';
+
+import '../widget/history_impaired_card.dart';
 
 class GamePeer extends StatefulWidget {
   const GamePeer({super.key});
@@ -13,7 +18,7 @@ class _GamePeerState extends State<GamePeer> {
 
   @override
   void initState() {
-    _addOfficialGame();
+    // _addOfficialGame();
     super.initState();
   }
 
@@ -68,35 +73,59 @@ class _GamePeerState extends State<GamePeer> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: getGame
-                  .where('createdBy', isEqualTo: 'Carbonara')
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final DocumentSnapshot document =
-                        snapshot.data!.docs[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(document['text']),
+                stream: getGame
+                    .where('createdBy', isEqualTo: 'Carbonara')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Column(children: [
+                      skeletonBox(double.infinity, 125),
+                      const SizedBox(height: 15),
+                      skeletonBox(double.infinity, 125),
+                    ]);
+                  } else if (snapshot.data!.docs.isEmpty) {
+                    return Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Image(image: AssetImage(inspired)),
+                          Text(
+                            'No official game',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: fontColor.withOpacity(0.5),
+                            ),
+                          )
+                        ],
                       ),
                     );
-                  },
-                );
-              },
-            ),
+                  } else {
+                    return Column(
+                      children: (snapshot.data!).docs.map((e) {
+                        List<dynamic> items = e['obj'];
+                        List<ItemObject> itemObject = items
+                            .map((e) => ItemObject(
+                                image: e['image'],
+                                objName: e['objName'],
+                                description: e['description'],
+                                colaboratorDesc: e['colaboratorDesc']))
+                            .toList();
+                        Game gameObj = Game(
+                            place: e['place'],
+                            obj: itemObject,
+                            code: e['code'],
+                            createdBy: e['createdBy'],
+                            playedBy: e['playedBy'],
+                            createdTime: e['createdTime'],
+                            isPlayed: e['isPlayed'],
+                            colaboratorUid: e['colaboratorUid']);
+                        return HistoryImpairedCard(gameObj, 'Carbonara');
+                      }).toList(),
+                    );
+                  }
+                }),
           ),
         ],
       ),
