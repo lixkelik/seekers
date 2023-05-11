@@ -2,6 +2,7 @@ import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/service/official_game_service.dart';
+import 'package:seekers/view/peer/official_game_card.dart';
 import 'package:seekers/view/widget/skeleton.dart';
 
 import '../widget/history_impaired_card.dart';
@@ -133,7 +134,7 @@ class _GamePeerState extends State<GamePeer> {
                               createdTime: e['createdTime'],
                               isPlayed: e['isPlayed'],
                               colaboratorUid: e['colaboratorUid']);
-                          return HistoryImpairedCard(gameObj, 'Carbonara');
+                          return OfficialGameCard(gameObj, 'Carbonara');
                         }).toList(),
                       );
                     }
