@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
@@ -29,116 +28,122 @@ class _GamePeerState extends State<GamePeer> {
   }
 
   @override
+  void dispose () {
+    textController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 38, right: 37, top: 80),
-                child: Text(
+      body: Padding(
+        padding: const EdgeInsets.only(left: 38, right: 38, top: 60),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
                   'Find A Game',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: fontColor),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 38, right: 37, top: 30),
-                child: Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Enter game Code that shared by your friends!',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600, color: fontColor),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: TextField(
+                const SizedBox(height: 15),
+                TextField(
                   controller: textController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: appOrange, width: 3)),
+                        borderSide: const BorderSide(color: appOrange, width: 3)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: appOrange, width: 3)),
+                        borderSide: const BorderSide(color: appOrange, width: 3)),
                     hintText: 'Type code here...',
                     filled: true,
                     fillColor: whiteGrey,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 38, right: 37, top: 12),
-                child: Text(
-                  'OR',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                const SizedBox(height: 20),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'OR',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600, color: fontColor),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 38, right: 37, top: 12),
-                child: Text(
-                  'Play Official Games!',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Play Official Games!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: fontColor),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: getGame
-                        .where('createdBy', isEqualTo: 'Carbonara')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Column(children: [
-                          skeletonBox(double.infinity, 125),
-                          const SizedBox(height: 15),
-                          skeletonBox(double.infinity, 125),
-                        ]);
-                      } else if (snapshot.data!.docs.isEmpty) {
-                        return Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Image(image: AssetImage(inspired)),
-                              Text(
-                                'No official game',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: fontColor.withOpacity(0.5),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Column(
-                          children: (snapshot.data!).docs.map((e) {
-                            List<dynamic> items = e['obj'];
-                            List<ItemObject> itemObject = items
-                                .map((e) => ItemObject(
-                                    image: e['image'],
-                                    objName: e['objName'],
-                                    description: e['description'],
-                                    colaboratorDesc: e['colaboratorDesc']))
-                                .toList();
-                            Game gameObj = Game(
-                                place: e['place'],
-                                obj: itemObject,
-                                code: e['code'],
-                                createdBy: e['createdBy'],
-                                playedBy: e['playedBy'],
-                                createdTime: e['createdTime'],
-                                isPlayed: e['isPlayed'],
-                                colaboratorUid: e['colaboratorUid']);
-                            return HistoryImpairedCard(gameObj, 'Carbonara');
-                          }).toList(),
-                        );
-                      }
-                    }),
-              ),
-            ],
+                const SizedBox(height: 20),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: getGame
+                          .where('createdBy', isEqualTo: 'Carbonara')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(children: [
+                            skeletonBox(double.infinity, 125),
+                            const SizedBox(height: 15),
+                            skeletonBox(double.infinity, 125),
+                          ]);
+                        } else if (snapshot.data!.docs.isEmpty) {
+                          return Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Image(image: AssetImage(inspired)),
+                                Text(
+                                  'No official game',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: fontColor.withOpacity(0.5),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Column(
+                            children: (snapshot.data!).docs.map((e) {
+                              List<dynamic> items = e['obj'];
+                              List<ItemObject> itemObject = items
+                                  .map((e) => ItemObject(
+                                      image: e['image'],
+                                      objName: e['objName'],
+                                      description: e['description'],
+                                      colaboratorDesc: e['colaboratorDesc']))
+                                  .toList();
+                              Game gameObj = Game(
+                                  place: e['place'],
+                                  obj: itemObject,
+                                  code: e['code'],
+                                  createdBy: e['createdBy'],
+                                  playedBy: e['playedBy'],
+                                  createdTime: e['createdTime'],
+                                  isPlayed: e['isPlayed'],
+                                  colaboratorUid: e['colaboratorUid']);
+                              return HistoryImpairedCard(gameObj, 'Carbonara');
+                            }).toList(),
+                          );
+                        }
+                      }),
+                ),
+              ],
+            ),
           ),
         ),
       ),
