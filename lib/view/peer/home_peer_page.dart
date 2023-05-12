@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/view/peer/article_peer_page.dart';
 import 'package:seekers/view/peer/game_peer_page.dart';
@@ -108,44 +109,58 @@ class _HomePeerPageState extends State<HomePeerPage> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
+                      StreamBuilder<QuerySnapshot>(
+                          stream: db.collection('games').snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              int count = snapshot.data!.docs.length;
+                              return Row(
                                 children: [
-                                  SizedBox(height: 20),
-                                  Text('Total Games',
-                                      style: TextStyle(fontSize: 16)),
-                                  SizedBox(height: 10),
-                                  Text('12', style: TextStyle(fontSize: 24)),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 20),
+                                          Text('Total Games',
+                                              style: TextStyle(fontSize: 16)),
+                                          SizedBox(height: 10),
+                                          Text('$count',
+                                              style: TextStyle(fontSize: 24)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 20),
+                                          Text('XP',
+                                              style: TextStyle(fontSize: 16)),
+                                          SizedBox(height: 10),
+                                          Text('${count * 20}',
+                                              style: TextStyle(fontSize: 24)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 20),
-                                  Text('XP', style: TextStyle(fontSize: 16)),
-                                  SizedBox(height: 10),
-                                  Text('50', style: TextStyle(fontSize: 24)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          }),
                     ],
                   ),
                 ),
