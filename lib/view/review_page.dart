@@ -1,6 +1,6 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
-import 'package:seekers/review_finish_page.dart';
+import 'package:seekers/view/review_finish_page.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
 import 'package:seekers/view/widget/skeleton.dart';
 
@@ -24,7 +24,9 @@ class _ReviewPageState extends State<ReviewPage> {
 
   @override
   void initState() {
-    (userRoles == 1) ? speakDescription() : null;
+    if(userRoles == 1){
+      speakDescription();
+    }
     super.initState();
   }
 
@@ -196,7 +198,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           shape: const CircleBorder(),
                           alignment: Alignment.center,
                         ),
-                        onPressed: () => textToSpeech(speakDescription()), 
+                        onPressed: () => speakDescription(), 
                         icon: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
@@ -254,11 +256,11 @@ class _ReviewPageState extends State<ReviewPage> {
     );
   }
 
-  String speakDescription(){
+  void speakDescription(){
     if(uid == gameObj.createdBy){
-      return 'This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].description}. And your collaborator description is: ${gameObj.obj[gameCounter].colaboratorDesc}.';
+      textToSpeech('This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].description}. And your collaborator description is: ${gameObj.obj[gameCounter].colaboratorDesc}.');
     }else{
-      return 'This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].colaboratorDesc}. And your collaborator description is: ${gameObj.obj[gameCounter].description}.';
+      textToSpeech( 'This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].colaboratorDesc}. And your collaborator description is: ${gameObj.obj[gameCounter].description}.');
     }
   }
 

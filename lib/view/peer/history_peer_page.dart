@@ -53,20 +53,28 @@ class _HistoryPeerPageState extends State<HistoryPeerPage> {
                         skeletonBox(double.infinity, 125),
                       ]);
                     } else if (snapshot.data!.docs.isEmpty) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Image(image: AssetImage(inspired)),
-                          Text(
-                            'No Game Found\nPlay a game first!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: fontColor.withOpacity(0.5),
+                      return SizedBox(
+                        width: double.infinity,
+                        height: 450,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Image(
+                              image: AssetImage(inspired),
+                              width: 180,
                             ),
-                          )
-                        ],
+                            Text(
+                              'No History Found\nPlay a game first!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: fontColor.withOpacity(0.5),
+                              ),
+                            )
+                          ],
+                        ),
                       );
                     } else {
                       return Column(
