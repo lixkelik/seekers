@@ -112,7 +112,8 @@ class _HomePeerPageState extends State<HomePeerPage> {
                     StreamBuilder<QuerySnapshot>(
                         stream: db
                             .collection('games')
-                            .where('uid', isEqualTo: auth.currentUser!.uid)
+                            .where('colaboratorUid',
+                                isEqualTo: auth.currentUser!.uid)
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {

@@ -1,8 +1,9 @@
 import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/factory/game_factory.dart';
 
-class ReviewFinishPage extends StatelessWidget {
-  String uid;
-  ReviewFinishPage(this.uid, {super.key});
+class SuccessPeerPage extends StatelessWidget {
+  Game game;
+  SuccessPeerPage(this.game, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class ReviewFinishPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Yay, you described it!',
+            const Text('That\'s it!\nYou have learned\n5 objects!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30,
@@ -25,6 +26,12 @@ class ReviewFinishPage extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
+            const Text('You got 20 XP!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30,
+                    color: fontColor,
+                    fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 15,
             ),

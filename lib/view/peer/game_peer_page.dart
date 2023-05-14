@@ -1,7 +1,9 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
+import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/service/official_game_service.dart';
+import 'package:seekers/view/peer/describe_peer_page.dart';
 import 'package:seekers/view/peer/official_game_card.dart';
 import 'package:seekers/view/widget/skeleton.dart';
 
@@ -96,11 +98,18 @@ class _GamePeerState extends State<GamePeer> {
                               code: data['code'],
                               place: data['place'],
                               createdBy: data['createdBy'],
-                              createdTime: Timestamp.now(),
+                              createdTime: data['createdTime'],
                               playedBy: data['playedBy'],
-                              isPlayed: true,
+                              isPlayed: data['isPlayed'],
                               colaboratorUid: data['colaboratorUid'],
                               obj: itemObject);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DescribePeerPage(game, 0, false)),
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

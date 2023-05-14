@@ -3,30 +3,38 @@ import 'dart:io';
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
+import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/view/impaired/success_page.dart';
+import 'package:seekers/view/peer/success_peer_page.dart';
+import 'package:seekers/view/repository/firestore_repository.dart';
+import 'package:seekers/view/review_finish_page.dart';
+import 'package:seekers/view/widget/skeleton.dart';
 
 class DescribePeerPage extends StatefulWidget {
   Game game;
   int objectCount;
-  DescribePeerPage(this.game, this.objectCount, {super.key});
+  bool isOfficial;
+  DescribePeerPage(this.game, this.objectCount, this.isOfficial, {super.key});
 
   @override
   // ignore: no_logic_in_create_state
   State<DescribePeerPage> createState() =>
-      _DescribePageState(game, objectCount);
+      _DescribePageState(game, objectCount, isOfficial);
 }
 
 class _DescribePageState extends State<DescribePeerPage> {
   Game game;
   int objectCount;
+  bool isOfficial;
+  UserSeekers? user;
 
-  _DescribePageState(this.game, this.objectCount);
+  _DescribePageState(this.game, this.objectCount, this.isOfficial);
 
   TextEditingController textController = TextEditingController();
-  File? img;
 
   @override
   void initState() {
+    _getUserData();
     super.initState();
   }
 
@@ -35,18 +43,20 @@ class _DescribePageState extends State<DescribePeerPage> {
     return Scaffold(
       body: Stack(children: [
         Transform.rotate(
-          angle: 3.14 / 2,
+          angle: isOfficial ? 0 : 3.14 / 2,
           child: SizedBox(
               height: 392.75,
-              child: (img != null)
-                  ? Image.file(
-                      img!,
-                      fit: BoxFit.cover,
-                      key: ValueKey(DateTime.now().millisecondsSinceEpoch),
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    )),
+              child: Image.network(game.obj[objectCount].image,
+                  fit: BoxFit.cover,
+                  key: ValueKey(DateTime.now().millisecondsSinceEpoch),
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                } else {
+                  return skeletonBox(double.infinity, 293);
+                }
+              })),
         ),
         Align(
             child: DraggableScrollableSheet(
@@ -66,8 +76,8 @@ class _DescribePageState extends State<DescribePeerPage> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Touch it!',
+                      Text(
+                        'Describe ${game.obj[objectCount].objName}!',
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -77,10 +87,10 @@ class _DescribePageState extends State<DescribePeerPage> {
                         height: 15,
                       ),
                       const Text(
-                          'What is the texture? Is it soft or hard? and the weight, is it light or heavy? How about the size? Is it big or small? What is the function of the object?',
+                          'What is the color? Shape? Material? Where this object usually belong? Tell me fun fact about this object.',
                           softWrap: true,
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 13, color: fontColor)),
+                          style: TextStyle(fontSize: 16, color: fontColor)),
                       const SizedBox(
                         height: 15,
                       ),
@@ -99,7 +109,7 @@ class _DescribePageState extends State<DescribePeerPage> {
                               borderSide: BorderSide.none,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          hintText: 'Enter text here Or talk',
+                          hintText: 'Type here...',
                         ),
                       ),
                       SizedBox(
@@ -111,20 +121,28 @@ class _DescribePageState extends State<DescribePeerPage> {
                                 String description = textController.text;
                                 game.obj[objectCount].colaboratorDesc =
                                     description;
-                                if (objectCount < 5) {
+                                if (objectCount < 4) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               // ke page selanjutnya
                                               DescribePeerPage(
-                                                  game, objectCount + 1)));
+                                                  game,
+                                                  objectCount + 1,
+                                                  isOfficial)));
                                 } else {
+                                  game.isPlayed = true;
+                                  game.colaboratorUid = user!.uid;
+                                  game.playedBy = user!.name;
+
+                                  saveToFirestore(game);
+
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              SuccessPage(game) // loading page
+                                          builder: (context) => SuccessPeerPage(
+                                              game) // loading page
                                           ));
                                 }
                               }
@@ -153,8 +171,10 @@ class _DescribePageState extends State<DescribePeerPage> {
     );
   }
 
-  Future<void> _evictImage() async {
-    await FileImage(img!).evict();
-    setState(() {});
+  Future<void> _getUserData() async {
+    UserSeekers user = await getUserData();
+    setState(() {
+      this.user = user;
+    });
   }
 }

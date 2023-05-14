@@ -43,7 +43,7 @@ class _HistoryPeerPageState extends State<HistoryPeerPage> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: getGame
                       .orderBy('createdTime', descending: true)
-                      .where('createdBy', isEqualTo: uid)
+                      .where('colaboratorUid', isEqualTo: uid)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
