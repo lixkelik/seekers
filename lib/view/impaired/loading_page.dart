@@ -29,33 +29,29 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      (gameObj.code == '')
-        ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              CircularProgressIndicator(),
-              SizedBox(height: 20),
-              Text(
-                'Uploading file please wait...',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: fontColor
+        body: (gameObj.code == '')
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 20),
+                    Text(
+                      'Uploading file please wait...',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: fontColor),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
                 ),
-                textAlign: TextAlign.center,
               )
-            ],
-          ),
-        )
-
-        : SuccessPage(gameObj)
-    );
+            : SuccessPage(gameObj));
   }
 
-  void pageSpeech(){
+  void pageSpeech() {
     textToSpeech('Please wait, we are uploading your file to our database!');
   }
 
@@ -67,7 +63,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
     List<String> downloadUrl = await uploadImage(gameObj);
 
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       gameObj.obj[i].image = downloadUrl[i];
     }
 

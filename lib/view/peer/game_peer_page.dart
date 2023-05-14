@@ -18,18 +18,11 @@ class _GamePeerState extends State<GamePeer> {
 
   @override
   void initState() {
-    // _addOfficialGame();
     super.initState();
   }
 
-  void _addOfficialGame() async {
-    OfficialGameService dummyDataService = OfficialGameService();
-    await dummyDataService.addOfficialGame();
-    setState(() {});
-  }
-
   @override
-  void dispose () {
+  void dispose() {
     textController.dispose();
     super.dispose();
   }
@@ -45,12 +38,18 @@ class _GamePeerState extends State<GamePeer> {
             children: <Widget>[
               const Text(
                 'Find A Game',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: fontColor),
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: fontColor),
               ),
               const SizedBox(height: 20),
               const Text(
                 'Enter game Code that shared by your friends!',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600, color: fontColor),
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: fontColor),
               ),
               const SizedBox(height: 15),
               TextField(
@@ -68,12 +67,77 @@ class _GamePeerState extends State<GamePeer> {
                 ),
               ),
               const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        DocumentReference docRef =
+                            db.collection('games').doc(textController.text);
+                        var docSnapshot = await docRef.get();
+
+                        if (docSnapshot.exists) {
+                          final data =
+                              docSnapshot.data() as Map<String, dynamic>;
+
+                          List<dynamic> items = data['obj'];
+                          List<ItemObject> itemObject = items.map(
+                            (e) {
+                              return ItemObject(
+                                image: e['image'],
+                                objName: e['objName'],
+                                description: e['description'],
+                                colaboratorDesc: e['colaboratorDesc'],
+                              );
+                            },
+                          ).toList();
+
+                          Game game = Game(
+                              code: data['code'],
+                              place: data['place'],
+                              createdBy: data['createdBy'],
+                              createdTime: Timestamp.now(),
+                              playedBy: data['playedBy'],
+                              isPlayed: true,
+                              colaboratorUid: data['colaboratorUid'],
+                              obj: itemObject);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Game does not exists'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        print('Error getting document: $e');
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: appOrange,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text('Play!',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ))),
+              ),
+              const SizedBox(height: 20),
               const SizedBox(
                 width: double.infinity,
                 child: Text(
                   'OR',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600, color: fontColor),
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                      color: fontColor),
                 ),
               ),
               const SizedBox(
@@ -81,7 +145,10 @@ class _GamePeerState extends State<GamePeer> {
                 child: Text(
                   'Play Official Games!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: fontColor),
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: fontColor),
                 ),
               ),
               const SizedBox(height: 20),
