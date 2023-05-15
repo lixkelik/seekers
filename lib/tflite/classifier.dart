@@ -22,7 +22,7 @@ class Classifier {
   static const int INPUT_SIZE = 300;
 
   /// Result score threshold
-  static const double THRESHOLD = 0.6;
+  static const double THRESHOLD = 0.65;
 
   late ImageProcessor imageProcessor;
 
@@ -63,7 +63,7 @@ class Classifier {
         _outputTypes.add(tensor.type);
       }
     } catch (e) {
-      print("Error while creating interpreter: $e");
+      
     }
   }
 
@@ -72,7 +72,7 @@ class Classifier {
     try {
       _labels = labels ?? await FileUtil.loadLabels("assets/$LABEL_FILE_NAME");
     } catch (e) {
-      print("Error while loading labels: $e");
+      
     }
   }
 
@@ -90,7 +90,6 @@ class Classifier {
   /// Runs object detection on the input image
   Map<String, dynamic>? predict(imageLib.Image image) {
     if (_interpreter == null) {
-      print("Interpreter not initialized");
       return null;
     }
 
