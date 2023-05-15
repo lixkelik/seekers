@@ -1,7 +1,6 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/view/authentication/register_page.dart';
 import 'package:seekers/constant/firebase_constant.dart';
-import 'package:seekers/view/impaired/explore_page.dart';
 import 'package:seekers/view/main_page.dart';
 
 import 'auth_widget.dart';
@@ -31,134 +30,153 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Form(
-        key: _formKey,
-        child: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 120),
-                child: Image.asset(
-                  appLogo,
-                  width: 77,
-                  height: 77,
+    return WillPopScope(
+      onWillPop: () async{
+        final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit?'),
+            actions: [
+              TextButton(
+                  child: const Text('No'),
+                  onPressed: () => Navigator.of(context).pop(false),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: fontColor,
-                  ),
-                )
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
-                child: TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if(value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
-                      return 'Please enter a valid email address';
-                    }
-                    return null;
-                  },
-                  decoration: inputDec('Email', hint: 'email@example.com'),
+                TextButton(
+                  child: const Text('Yes'),
+                  onPressed: () => Navigator.of(context).pop(true),
                 ),
-              ),
-      
-              Container(
-                margin: const EdgeInsets.only(top: 25, left: 38, right: 38),
-                child: TextFormField(
-                  controller: passwordController,
-                  obscureText: _obscure,
-                  validator: (value) {
-                    if(value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }else if(value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
-                  decoration: inputDec('Password', isPassword: true ,obscure: _obscure, togglePass:  (value) {setState(() {
-                    _obscure = value;
-                  });},),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 38, vertical: 15),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : login,
-                            
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appOrange,
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: _isLoading 
-                              ? const CircularProgressIndicator()
-                              :const Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                )
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 45),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
-                        },
-                        child: RichText(
-                          text: const TextSpan(
-                            text: 'Don\'t have an account?',
-                            style: TextStyle(
-                              color: fontColor,
-                              fontSize: 15
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ' Register here',
-                                style: TextStyle(
-                                  color: appOrange,
-                                  fontWeight: FontWeight.w600
-                                ),
-                              )
-                            ]
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
+          )
+        );
+        return shouldExit ?? false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Form(
+          key: _formKey,
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 120),
+                  child: Image.asset(
+                    appLogo,
+                    width: 77,
+                    height: 77,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: fontColor,
+                    ),
+                  )
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
+                  child: TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                    decoration: inputDec('Email', hint: 'email@example.com'),
+                  ),
+                ),
+        
+                Container(
+                  margin: const EdgeInsets.only(top: 25, left: 38, right: 38),
+                  child: TextFormField(
+                    controller: passwordController,
+                    obscureText: _obscure,
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }else if(value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                    decoration: inputDec('Password', isPassword: true ,obscure: _obscure, togglePass:  (value) {setState(() {
+                      _obscure = value;
+                    });},),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 38, vertical: 15),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : login,
+                              
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: appOrange,
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: _isLoading 
+                                ? const CircularProgressIndicator()
+                                :const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  )
+                                )
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 45),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Don\'t have an account?',
+                              style: styleR15,
+                              children: const [
+                                TextSpan(
+                                  text: ' Register here',
+                                  style: TextStyle(
+                                    color: appOrange,
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ]
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

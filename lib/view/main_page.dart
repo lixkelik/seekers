@@ -106,7 +106,7 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Center(child: CircularProgressIndicator()),
+              Center(child: CircularProgressIndicator(color: appOrange,)),
               SizedBox(height: 10,),
               Center(
                 child: Text('Please wait...',

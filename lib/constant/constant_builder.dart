@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 export 'package:flutter/material.dart';
+export 'package:seekers/view/widget/skeleton.dart';
 
 const Color white = Colors.white;
 const Color lightGrey = Color(0xffAFAFAF);
@@ -42,3 +43,13 @@ const dummy_book = 'assets/image/dummy_data/book.png';
 const dummy_chair = 'assets/image/dummy_data/chair.png';
 const dummy_glasses = 'assets/image/dummy_data/glasses.png';
 const dummy_pencil = 'assets/image/dummy_data/pencil.png';
+
+TextStyle styleR15 = const TextStyle(fontSize: 15, color: fontColor);
+
+TextStyle styleSB15 = const TextStyle(fontSize: 15,fontWeight: FontWeight.w600,color: fontColor);
+TextStyle styleSB25 = const TextStyle(fontSize: 25,fontWeight: FontWeight.w600,color: fontColor);
+TextStyle styleSB30 = const TextStyle(fontSize: 30,fontWeight: FontWeight.w600,color: fontColor);
+
+TextStyle styleB15 = const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: fontColor);
+TextStyle styleB25 = const TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: fontColor);
+TextStyle styleB30 = const TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: fontColor);

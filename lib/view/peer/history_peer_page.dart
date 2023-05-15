@@ -1,7 +1,6 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
-import 'package:seekers/view/widget/skeleton.dart';
 
 import '../widget/history_peer_card.dart';
 

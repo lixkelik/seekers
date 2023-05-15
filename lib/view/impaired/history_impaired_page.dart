@@ -2,8 +2,8 @@ import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
+import 'package:seekers/view/widget/history_impaired_card.dart';
 import 'package:seekers/view/widget/history_peer_card.dart';
-import 'package:seekers/view/widget/skeleton.dart';
 
 class HistoryImpairedPage extends StatefulWidget {
   String uid;
@@ -45,28 +45,34 @@ class _HistoryImpairedPageState extends State<HistoryImpairedPage> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Column(children: [
-                    skeletonBox(double.infinity, 125),
+                    skeletonBox(double.infinity, 138),
                     const SizedBox(height: 15),
-                    skeletonBox(double.infinity, 125),
+                    skeletonBox(double.infinity, 138),
                   ]);
                 } else if (snapshot.data!.docs.isEmpty) {
-                  return Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Image(image: AssetImage(inspired)),
-                        Text(
-                          'No Game Found\nPlay a game first!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: fontColor.withOpacity(0.5),
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 450,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Image(
+                            image: AssetImage(inspired),
+                            width: 180,
                           ),
-                        )
-                      ],
-                    ),
-                  );
+                          Text(
+                            'No History Found\nPlay a game first!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: fontColor.withOpacity(0.5),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                 } else {
                   return Column(
                     children: (snapshot.data!).docs.map((e) {
@@ -87,7 +93,7 @@ class _HistoryImpairedPageState extends State<HistoryImpairedPage> {
                           createdTime: e['createdTime'],
                           isPlayed: e['isPlayed'],
                           colaboratorUid: e['colaboratorUid']);
-                      return HistoryPeerCard(gameObj, uid);
+                      return HistoryImpairedCard(gameObj, uid);
                     }).toList(),
                   );
                 }

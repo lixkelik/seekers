@@ -2,7 +2,6 @@ import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/review_finish_page.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
-import 'package:seekers/view/widget/skeleton.dart';
 
 class ReviewPage extends StatefulWidget {
   int gameCounter;
@@ -80,7 +79,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
+                        color: white
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -90,7 +89,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       width: double.infinity,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white
+                        color: white
                       ),
                       child: 
                         (uid == gameObj.createdBy)
@@ -148,39 +147,25 @@ class _ReviewPageState extends State<ReviewPage> {
                         (uid == gameObj.createdBy)
                         ? RichText( text: TextSpan(
                           children: [
-                            const TextSpan(
+                            TextSpan(
                               text: 'Friend Description:\n',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: fontColor,
-                                fontWeight: FontWeight.bold
-                              ),
+                              style: styleB15
                             ),
                             TextSpan(
                               text: gameObj.obj[gameCounter].colaboratorDesc,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: fontColor
-                              )
+                              style:styleR15
                             )
                           ]
                         ))
                         : RichText( text: TextSpan(
                           children: [
-                            const TextSpan(
+                            TextSpan(
                               text: 'Friend Description:\n',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: fontColor,
-                                fontWeight: FontWeight.bold
-                              ),
+                              style: styleB15
                             ),
                             TextSpan(
                               text: gameObj.obj[gameCounter].description,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: fontColor
-                              )
+                              style: styleR15
                             )
                           ]
                         ))
@@ -203,7 +188,7 @@ class _ReviewPageState extends State<ReviewPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Icon(Icons.volume_up_rounded, size: 27, color: appOrange,),
-                            Text('Speak', style: TextStyle(color: appOrange),)
+                            Text('Hear', style: TextStyle(color: appOrange),)
                           ],
                         ), 
                         label: const SizedBox.shrink()

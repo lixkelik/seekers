@@ -120,7 +120,7 @@ class HistoryPeerCard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  ReviewPage(gameObj, 0, uid, 1)));
+                                  ReviewPage(gameObj, 0, uid, 2)));
                     },
                     child: Container(
                       decoration: const BoxDecoration(

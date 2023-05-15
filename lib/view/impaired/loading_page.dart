@@ -34,15 +34,12 @@ class _LoadingPageState extends State<LoadingPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 20),
+                  children: [
+                    const CircularProgressIndicator(color: appOrange, ),
+                    const SizedBox(height: 20),
                     Text(
                       'Uploading file please wait...',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: fontColor),
+                      style: styleB15,
                       textAlign: TextAlign.center,
                     )
                   ],
@@ -52,7 +49,7 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   void pageSpeech() {
-    textToSpeech('Please wait, we are uploading your file to our database!');
+    textToSpeech('Please wait, we are uploading your file! We will let you know when it\'s finished');
   }
 
   Future<void> saveObj() async {

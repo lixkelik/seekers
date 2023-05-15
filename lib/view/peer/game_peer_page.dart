@@ -1,13 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
-import 'package:seekers/factory/user_factory.dart';
-import 'package:seekers/service/official_game_service.dart';
 import 'package:seekers/view/peer/describe_peer_page.dart';
 import 'package:seekers/view/peer/official_game_card.dart';
-import 'package:seekers/view/widget/skeleton.dart';
 
-import '../widget/history_impaired_card.dart';
 
 class GamePeer extends StatefulWidget {
   const GamePeer({super.key});
@@ -18,6 +16,7 @@ class GamePeer extends StatefulWidget {
 class _GamePeerState extends State<GamePeer> {
   TextEditingController textController = TextEditingController();
 
+  String errorText = "";
   @override
   void initState() {
     super.initState();
@@ -38,20 +37,14 @@ class _GamePeerState extends State<GamePeer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Text(
+              Text(
                 'Find A Game',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: fontColor),
+                style: styleB30
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 'Enter game Code that shared by your friends!',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: fontColor),
+                style: styleSB25
               ),
               const SizedBox(height: 15),
               TextField(
@@ -68,59 +61,20 @@ class _GamePeerState extends State<GamePeer> {
                   fillColor: whiteGrey,
                 ),
               ),
+              Text(
+                errorText,
+                style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.red),
+              ),
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        DocumentReference docRef =
-                            db.collection('games').doc(textController.text);
-                        var docSnapshot = await docRef.get();
-
-                        if (docSnapshot.exists) {
-                          final data =
-                              docSnapshot.data() as Map<String, dynamic>;
-
-                          List<dynamic> items = data['obj'];
-                          List<ItemObject> itemObject = items.map(
-                            (e) {
-                              return ItemObject(
-                                image: e['image'],
-                                objName: e['objName'],
-                                description: e['description'],
-                                colaboratorDesc: e['colaboratorDesc'],
-                              );
-                            },
-                          ).toList();
-
-                          Game game = Game(
-                              code: data['code'],
-                              place: data['place'],
-                              createdBy: data['createdBy'],
-                              createdTime: data['createdTime'],
-                              playedBy: data['playedBy'],
-                              isPlayed: data['isPlayed'],
-                              colaboratorUid: data['colaboratorUid'],
-                              obj: itemObject);
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DescribePeerPage(game, 0, false)),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Game does not exists'),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        print('Error getting document: $e');
-                      }
+                    onPressed: () {
+                      
+                      findGame();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: appOrange,
@@ -149,15 +103,12 @@ class _GamePeerState extends State<GamePeer> {
                       color: fontColor),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
                 child: Text(
                   'Play Official Games!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: fontColor),
+                  style: styleB25
                 ),
               ),
               const SizedBox(height: 20),
@@ -220,5 +171,82 @@ class _GamePeerState extends State<GamePeer> {
         ),
       ),
     );
+  }
+
+  Future<void> findGame() async{
+    if(textController.text == ""){
+      ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Fill the game code first!'),
+              backgroundColor: Colors.red,
+            ),
+          );
+    }else {
+      try {
+        DocumentReference docRef =
+            db.collection('games').doc(textController.text);
+        var docSnapshot = await docRef.get();
+
+        if (docSnapshot.exists) {
+          final data =
+              docSnapshot.data() as Map<String, dynamic>;
+
+          List<dynamic> items = data['obj'];
+          List<ItemObject> itemObject = items.map(
+            (e) {
+              return ItemObject(
+                image: e['image'],
+                objName: e['objName'],
+                description: e['description'],
+                colaboratorDesc: e['colaboratorDesc'],
+              );
+            },
+          ).toList();
+
+          Game game = Game(
+              code: data['code'],
+              place: data['place'],
+              createdBy: data['createdBy'],
+              createdTime: data['createdTime'],
+              playedBy: data['playedBy'],
+              isPlayed: data['isPlayed'],
+              colaboratorUid: data['colaboratorUid'],
+              obj: itemObject);
+
+          if(game.isPlayed == false){
+            textController.clear();
+            setState(() {
+              errorText = "";
+            });
+            
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      DescribePeerPage(game, 0, false)),
+            );
+          }else{
+            setState(() {
+              errorText = "Game is already played";
+            });
+          }
+          
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Game does not exists'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error Code: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+      }
+    }
   }
 }

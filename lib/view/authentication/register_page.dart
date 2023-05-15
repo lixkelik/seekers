@@ -1,7 +1,6 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/view/authentication/login_page.dart';
-import 'package:seekers/view/impaired/explore_page.dart';
 import 'package:seekers/view/main_page.dart';
 
 import 'auth_widget.dart';
@@ -34,193 +33,212 @@ class _RegisterPageState extends State<RegisterPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 120),
-                  child: Image.asset(
-                    appLogo,
-                    width: 77,
-                    height: 77,
-                  ),
+    return WillPopScope(
+      onWillPop: () async{
+        final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit?'),
+            actions: [
+              TextButton(
+                  child: const Text('No'),
+                  onPressed: () => Navigator.of(context).pop(false),
                 ),
-      
-                Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child: const Text(
-                    'Register',
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: fontColor,
-                    ),
-                  )
+                TextButton(
+                  child: const Text('Yes'),
+                  onPressed: () => Navigator.of(context).pop(true),
                 ),
-      
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: appOrange,
-                  ),
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
-                  child: DropdownButtonFormField<String>(
-                    value: dropdownValue,
-                    dropdownColor: appYellow,
-                    borderRadius: BorderRadius.circular(10),
-                    alignment: Alignment.center,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: appYellow,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: appYellow, width: 3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: appYellow, width: 3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: <String>['Im Visually Impaired', 'Im Sighted Peer']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Center(child: Text(value, style: const TextStyle(color: Colors.white),)),
-                      );
-                    }).toList(),
-                    icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: 24.0,
-                  ),
-                ),
-      
-                Container(
-                  margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
-                  child: TextFormField(
-                    controller: nameController,
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if(value == null || value.isEmpty) {
-                        return 'Please enter your name!';
-                      } 
-                      return null;
-                    },
-                    decoration: inputDec('Name', hint: 'ex: Natasha'),
-                  ),
-                ),
-      
-      
-                Container(
-                  margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
-                  child: TextFormField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if(value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                    decoration: inputDec('Email', hint: 'email@example.com'),
-                  ),
-                ),
-      
-                Container(
-                  margin: const EdgeInsets.only(top: 25, left: 38, right: 38),
-                  child: TextFormField(
-                    controller: passwordController,
-                    obscureText: _obscure,
-                    validator: (value) {
-                      if(value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }else if(value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                    decoration: inputDec('Password', isPassword: true ,obscure: _obscure, togglePass:  (value) {setState(() {
-                      _obscure = value;
-                    });},),
-                  ),
-                ),
-      
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 38, vertical: 15),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : register,
-                            
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: appOrange,
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: _isLoading 
-                              ? const CircularProgressIndicator()
-                              :const Text(
-                                'Register',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                )
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 45),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
-                        },
-                        child: RichText(
-                          text: const TextSpan(
-                            text: 'Already have an account? ',
-                            style: TextStyle(
-                              color: fontColor,
-                              fontSize: 15
-                            ),
-                            children: [
-                              TextSpan(
-                                text: 'Login here',
-                                style: TextStyle(
-                                  color: appOrange,
-                                  fontWeight: FontWeight.w600
-                                ),
-                              )
-                            ]
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            ],
           )
+        );
+        return shouldExit ?? false;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 120),
+                    child: Image.asset(
+                      appLogo,
+                      width: 77,
+                      height: 77,
+                    ),
+                  ),
+        
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: fontColor,
+                      ),
+                    )
+                  ),
+        
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: appOrange,
+                    ),
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue,
+                      dropdownColor: appYellow,
+                      borderRadius: BorderRadius.circular(10),
+                      alignment: Alignment.center,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: appYellow,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: appYellow, width: 3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: appYellow, width: 3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: <String>['Im Visually Impaired', 'Im Sighted Peer']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Center(child: Text(value, style: const TextStyle(color: Colors.white),)),
+                        );
+                      }).toList(),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 24.0,
+                    ),
+                  ),
+        
+                  Container(
+                    margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
+                    child: TextFormField(
+                      controller: nameController,
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter your name!';
+                        } 
+                        return null;
+                      },
+                      decoration: inputDec('Name', hint: 'ex: Natasha Atika'),
+                    ),
+                  ),
+        
+        
+                  Container(
+                    margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
+                    child: TextFormField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)){
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                      decoration: inputDec('Email', hint: 'email@example.com'),
+                    ),
+                  ),
+        
+                  Container(
+                    margin: const EdgeInsets.only(top: 25, left: 38, right: 38),
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: _obscure,
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }else if(value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
+                      decoration: inputDec('Password', isPassword: true ,obscure: _obscure, togglePass:  (value) {setState(() {
+                        _obscure = value;
+                      });},),
+                    ),
+                  ),
+        
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 38, vertical: 15),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : register,
+                              
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: appOrange,
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: _isLoading 
+                                ? const CircularProgressIndicator()
+                                :const Text(
+                                  'Register',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  )
+                                )
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 45),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Already have an account? ',
+                              style: styleR15,
+                              children: const [
+                                TextSpan(
+                                  text: 'Login here',
+                                  style: TextStyle(
+                                    color: appOrange,
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ]
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ),
         ),
       ),
     );

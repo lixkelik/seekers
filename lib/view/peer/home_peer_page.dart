@@ -1,10 +1,8 @@
 import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/view/peer/article_peer_page.dart';
-import 'package:seekers/view/peer/game_peer_page.dart';
 import 'package:seekers/view/repository/firestore_repository.dart';
 import 'package:seekers/constant/constant_builder.dart';
-import 'package:seekers/view/widget/skeleton.dart';
 
 class HomePeerPage extends StatefulWidget {
   final Function(int) updateCurrentPageIndex;
@@ -21,18 +19,23 @@ class _HomePeerPageState extends State<HomePeerPage> {
 
   String uid = '';
   UserSeekers? user;
+  int gameTotal = 0;
+  int expTotal = 0;
 
   @override
   void initState() {
     _getUid();
     _getUserData();
+    _getUserPlayedGames();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             const SizedBox(
@@ -86,94 +89,91 @@ class _HomePeerPageState extends State<HomePeerPage> {
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
                     Container(
+                      height: 55,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: white),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Row(
-                          children: const <Widget>[
-                            Image(
-                                image: AssetImage(badge1), fit: BoxFit.contain),
-                            SizedBox(width: 10),
-                            Image(
-                                image: AssetImage(badge2), fit: BoxFit.contain),
-                            SizedBox(width: 10),
-                            Image(
-                                image: AssetImage(badge3), fit: BoxFit.contain),
-                            SizedBox(width: 10),
-                            Image(
+                          children: <Widget>[
+                            (expTotal >= 40)
+                            ? const Image(
+                                image: AssetImage(badge1), fit: BoxFit.contain)
+                            : const SizedBox(),
+                            const SizedBox(width: 10),
+                            (expTotal >= 80)
+                            ? const Image(
+                                image: AssetImage(badge2), fit: BoxFit.contain)
+                            : const SizedBox(),
+                            const SizedBox(width: 10),
+
+                            (expTotal >= 120)
+                            ? const Image(
+                                image: AssetImage(badge3), fit: BoxFit.contain)
+                            : const SizedBox(),
+                            const SizedBox(width: 10),
+
+                            (expTotal >= 300)
+                            ? const Image(
                                 image: AssetImage(badge4), fit: BoxFit.contain)
+                            : const SizedBox(),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    StreamBuilder<QuerySnapshot>(
-                        stream: db
-                            .collection('games')
-                            .where('colaboratorUid',
-                                isEqualTo: auth.currentUser!.uid)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            int count = snapshot.data!.docs.length;
-                            return Row(
+                    Row(
+                      children: [
+                        Expanded(
+                          // flex: 1,
+                          child: Container(
+                            height: 85,
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius:
+                                    BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  // flex: 1,
-                                  child: Container(
-                                    height: 85,
-                                    decoration: BoxDecoration(
-                                        color: white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        // SizedBox(height: 20),
-                                        Text('Total Games',
-                                            style: TextStyle(fontSize: 16)),
-                                        SizedBox(height: 10),
-                                        Text('$count',
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 20),
-                                Expanded(
-                                  // flex: 1,
-                                  child: Container(
-                                    height: 85,
-                                    decoration: BoxDecoration(
-                                        color: white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text('XP Gained',
-                                            style: TextStyle(fontSize: 16)),
-                                        SizedBox(height: 10),
-                                        Text('${count * 20}',
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
+                                // SizedBox(height: 20),
+                                Text('Total Games', style: styleR15),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '$gameTotal',
+                                  style: styleB25
                                 ),
                               ],
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        }),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          // flex: 1,
+                          child: Container(
+                            height: 85,
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius:
+                                    BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                              children: [
+                                Text('XP Gained',
+                                    style: styleR15),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '$expTotal',
+                                  style: styleB25
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -343,4 +343,13 @@ class _HomePeerPageState extends State<HomePeerPage> {
       this.user = user;
     });
   }
+
+  Future<void> _getUserPlayedGames() async {
+    QuerySnapshot data = await db.collection('games').where('colaboratorUid', isEqualTo: auth.currentUser!.uid).get();
+    setState(() {
+      gameTotal = data.docs.length;
+      expTotal = gameTotal * 20;
+    });
+  }
+
 }
