@@ -31,7 +31,6 @@ const completedTask = 'assets/image/illustration/all_good.png';
 const articleBg = 'assets/image/illustration/article_bg.png';
 const clickMe = 'assets/image/illustration/click_me.png';
 const profilePic = 'assets/image/illustration/profile.png';
-const selectRoles = 'assets/image/illustration/select_roles.png';
 const walkingMan = 'assets/image/illustration/walking_man.png';
 const inspired = 'assets/image/illustration/inspired.png';
 const welcome = 'assets/image/illustration/welcome.png';
