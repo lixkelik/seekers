@@ -19,7 +19,7 @@ class Classifier {
   /// Input size of image (height = width = 300)
   static const int INPUT_SIZE = 300;
 
-  static const double THRESHOLD = 0.65;
+  static const double THRESHOLD = 0.6;
 
   late ImageProcessor imageProcessor;
 
