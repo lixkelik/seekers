@@ -82,9 +82,9 @@ class _ReviewPageState extends State<ReviewPage> {
                         color: white
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 10),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
                       padding: const EdgeInsets.all(10),
                       width: double.infinity,
                       decoration: const BoxDecoration(
@@ -135,7 +135,9 @@ class _ReviewPageState extends State<ReviewPage> {
 
                     const SizedBox(height: 10),
 
-                    Container(
+                    (gameObj.obj[gameCounter].colaboratorDesc == '-')
+                    ? const SizedBox()
+                    : Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       padding: const EdgeInsets.all(10),
                       width: double.infinity,
@@ -175,7 +177,7 @@ class _ReviewPageState extends State<ReviewPage> {
                     (userRoles == 1)
                     ? Container(
                       margin: const EdgeInsets.only(top: 16),
-                      child: TextButton.icon(
+                      child: TextButton(
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white, 
                           backgroundColor: Colors.white,
@@ -184,14 +186,13 @@ class _ReviewPageState extends State<ReviewPage> {
                           alignment: Alignment.center,
                         ),
                         onPressed: () => speakDescription(), 
-                        icon: Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Icon(Icons.volume_up_rounded, size: 27, color: appOrange,),
-                            Text('Hear', style: TextStyle(color: appOrange),)
+                            Icon(Icons.volume_up_rounded, size: 37, color: appOrange,),
+                            Text('Hear', style: TextStyle(color: appOrange, fontSize: 18),)
                           ],
-                        ), 
-                        label: const SizedBox.shrink()
+                        ),
                       )
                     )
                     : const SizedBox(height: 15),
@@ -243,9 +244,9 @@ class _ReviewPageState extends State<ReviewPage> {
 
   void speakDescription(){
     if(uid == gameObj.createdBy){
-      textToSpeech('This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].description}. And your collaborator description is: ${gameObj.obj[gameCounter].colaboratorDesc}.');
-    }else{
-      textToSpeech( 'This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].colaboratorDesc}. And your collaborator description is: ${gameObj.obj[gameCounter].description}.');
+      (gameObj.obj[gameCounter].colaboratorDesc == '-')
+      ? textToSpeech('This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].description}')
+      : textToSpeech('This is ${gameObj.obj[gameCounter].objName}. Your description of ${gameObj.obj[gameCounter].objName}is:${gameObj.obj[gameCounter].description}. And your friend description is: ${gameObj.obj[gameCounter].colaboratorDesc}.');
     }
   }
 

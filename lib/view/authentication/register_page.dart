@@ -87,24 +87,23 @@ class _RegisterPageState extends State<RegisterPage> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: appOrange,
+                      color: appYellow.withOpacity(0.3)
                     ),
                     width: double.infinity,
                     margin: const EdgeInsets.only(top: 30, left: 38, right: 38),
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue,
-                      dropdownColor: appYellow,
+                      dropdownColor: white,
                       borderRadius: BorderRadius.circular(10),
                       alignment: Alignment.center,
                       decoration: InputDecoration(
-                        filled: true,
-                        fillColor: appYellow,
+                        filled: false,
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: appYellow, width: 3),
+                          borderSide: const BorderSide(color: appOrange, width: 3),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: appYellow, width: 3),
+                          borderSide: const BorderSide(color: appOrange, width: 3),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -117,11 +116,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Center(child: Text(value, style: const TextStyle(color: Colors.white),)),
+                          child: Text(
+                            value, 
+                            style: const TextStyle(color: fontColor, fontWeight: FontWeight.w600),
+                          )
                         );
+                        
                       }).toList(),
                       icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24.0,
+                      iconSize: 30,
                     ),
                   ),
         

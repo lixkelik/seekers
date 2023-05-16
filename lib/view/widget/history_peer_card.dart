@@ -12,7 +12,7 @@ class HistoryPeerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 125,
+      height: 110,
       margin: const EdgeInsets.only(bottom: 15),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -25,7 +25,7 @@ class HistoryPeerCard extends StatelessWidget {
             child: Image.network(
               gameObj.obj[0].image,
               width: 85,
-              height: 125,
+              height: 110,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => const SizedBox(
                 width: 85,
@@ -74,17 +74,10 @@ class HistoryPeerCard extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          (gameObj.isPlayed)
-                              ? const Icon(
-                                  Icons.verified_rounded,
-                                  color: Color(0xff39E257),
-                                )
-                              : const Icon(
-                                  Icons.cancel_rounded,
-                                  color: Colors.white,
-                                )
+                          
                         ],
                       ),
+                      const SizedBox(height: 5,),
                       Row(
                         children: [
                           const Icon(
@@ -97,7 +90,7 @@ class HistoryPeerCard extends StatelessWidget {
                           ),
                           Text(
                             DateFormat('dd-MMMM-yyyy, HH:mm')
-                                .format(gameObj.createdTime.toDate()),
+                                .format(gameObj.colaboratorTime.toDate()),
                             style: const TextStyle(
                                 fontSize: 12, color: Colors.white),
                           )
@@ -106,10 +99,6 @@ class HistoryPeerCard extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text('Collaborator: ${gameObj.playedBy}',
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 16)),
                     ],
                   ),
                 ),

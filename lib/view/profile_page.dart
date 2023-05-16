@@ -3,7 +3,6 @@ import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/view/authentication/login_page.dart';
 import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/view/repository/firestore_repository.dart';
-import 'package:seekers/view/widget/skeleton.dart';
 import 'package:seekers/view/impaired/texttospeech.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -130,6 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Text('Speech Reading Speed',
                             style: TextStyle(
                               fontSize: 20,
+                              
                             )),
                       ),
                       const SizedBox(
@@ -139,14 +139,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Color.fromARGB(255, 194, 194, 194),
+                            color: white,
                           ),
                           width: 75,
                           height: 50,
                           child: Center(
                             child: Text(speechRate.toStringAsFixed(2),
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold
                                 )),
                           ),
                         ),
@@ -196,14 +197,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Color.fromARGB(255, 194, 194, 194),
+                            color: white,
                           ),
                           width: 75,
                           height: 50,
                           child: Center(
                             child: Text(volume.toStringAsFixed(2),
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold
                                 )),
                           ),
                         ),
@@ -251,6 +253,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void pageSpeech() {
-    textToSpeech('This is Profile page!');
+    textToSpeech('You are at: Profile page!');
   }
 }

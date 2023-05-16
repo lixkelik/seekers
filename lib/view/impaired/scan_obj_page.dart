@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
@@ -36,6 +38,8 @@ class _ScanObjectPageState extends State<ScanObjectPage> {
   /// Results to draw bounding boxes
   List<Recognition>? results;
   CameraImage? _currentImage;
+
+  Timer? _timer;
 
   String objText = '';
 
@@ -92,7 +96,14 @@ class _ScanObjectPageState extends State<ScanObjectPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(0)), // remove border radius
                                   ),
                                 ),
-                                onPressed: () => textToSpeech(objText), 
+                                onPressed: () {
+                                  if(objText == ''){
+                                    textToSpeech("No object detected!");
+                                  }else{
+                                    textToSpeech(objText);
+                                  }
+                                  
+                                },
                                 icon: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: const [
@@ -205,25 +216,22 @@ class _ScanObjectPageState extends State<ScanObjectPage> {
 
   /// Callback to get inference results from [CameraView]
   void resultsCallback(List<Recognition> results, CameraImage image) {
-    bool lastChecker = true;
-    if(this.results != null && results.isNotEmpty){
-      if(this.results!.isNotEmpty){
-        if(this.results!.last.label == results.last.label){
-          lastChecker = false;
-        }
-      }
-    }
     if(mounted){
       setState(() {
         this.results = results;
-        if(lastChecker){
-          if(results.isNotEmpty){
+        if(results.isNotEmpty){
+          if(objText != results.last.label){
             textToSpeech(results.last.label);
-            objText = results.last.label;
-            _currentImage = image;
           }
+          objText = results.last.label;
+          clearObjText();
+          _currentImage = image;
         }
       });
     }
+  }
+  void clearObjText() async{
+    _timer?.cancel();
+    _timer = Timer(const Duration(seconds: 1), (() =>  objText=''));
   }
 }

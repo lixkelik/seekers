@@ -93,6 +93,7 @@ class _HistoryPeerPageState extends State<HistoryPeerPage> {
                               createdBy: e['createdBy'],
                               playedBy: e['playedBy'],
                               createdTime: e['createdTime'],
+                              colaboratorTime: e['colaboratorTime'],
                               isPlayed: e['isPlayed'],
                               colaboratorUid: e['colaboratorUid']);
                           return HistoryPeerCard(gameObj, uid);

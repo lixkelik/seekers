@@ -97,26 +97,55 @@ class _HomePeerPageState extends State<HomePeerPage> {
                         padding: const EdgeInsets.all(10),
                         child: Row(
                           children: <Widget>[
+                            (expTotal < 40)
+                            ? const Text(
+                              'You don\'t have any badges!'
+                              , style: TextStyle(
+                                color: Colors.grey,
+                                fontStyle: FontStyle.italic
+                              ))
+                            : const SizedBox(),
                             (expTotal >= 40)
-                            ? const Image(
-                                image: AssetImage(badge1), fit: BoxFit.contain)
+                            ? const Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                preferBelow: false,
+                                message: 'Achieved by getting 40 XP',
+                                child: Image(
+                                    image: AssetImage(badge1), fit: BoxFit.contain),
+                              )
                             : const SizedBox(),
                             const SizedBox(width: 10),
                             (expTotal >= 80)
-                            ? const Image(
-                                image: AssetImage(badge2), fit: BoxFit.contain)
+                            ? const Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                preferBelow: false,
+                                message: 'Achieved by getting 80 XP',
+                                child: Image(
+                                    image: AssetImage(badge2), fit: BoxFit.contain),
+                              )
                             : const SizedBox(),
                             const SizedBox(width: 10),
 
                             (expTotal >= 120)
-                            ? const Image(
-                                image: AssetImage(badge3), fit: BoxFit.contain)
+                            ? const Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                preferBelow: false,
+                                enableFeedback: true,
+                                message: 'Achieved by getting 120 XP',
+                                child: Image(
+                                    image: AssetImage(badge3), fit: BoxFit.contain),
+                              )
                             : const SizedBox(),
                             const SizedBox(width: 10),
 
                             (expTotal >= 300)
-                            ? const Image(
-                                image: AssetImage(badge4), fit: BoxFit.contain)
+                            ? const Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                preferBelow: false,
+                                message: 'Achieved by getting 300 XP',
+                                child: Image(
+                                    image: AssetImage(badge4), fit: BoxFit.contain),
+                              )
                             : const SizedBox(),
                           ],
                         ),

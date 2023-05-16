@@ -5,7 +5,6 @@ import 'package:image/image.dart' as imageLib;
 import 'package:path_provider/path_provider.dart';
 import 'package:seekers/constant/constant_builder.dart';
 
-/// ImageUtils
 class ImageUtils {
   /// Converts a [CameraImage] in YUV420 format to [imageLib.Image] in RGB format
   static imageLib.Image? convertCameraImage(CameraImage cameraImage) {
@@ -54,12 +53,10 @@ class ImageUtils {
 
   /// Convert a single YUV pixel to RGB
   static int yuv2rgb(int y, int u, int v) {
-    // Convert yuv pixel to rgb
     int r = (y + v * 1436 / 1024 - 179).round();
     int g = (y - u * 46549 / 131072 + 44 - v * 93604 / 131072 + 91).round();
     int b = (y + u * 1814 / 1024 - 227).round();
 
-    // Clipping RGB values to be inside boundaries [ 0 , 255 ]
     r = r.clamp(0, 255);
     g = g.clamp(0, 255);
     b = b.clamp(0, 255);

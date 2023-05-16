@@ -1,7 +1,6 @@
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/view/peer/describe_peer_page.dart';
-import 'package:seekers/view/review_page.dart';
 
 class OfficialGameCard extends StatelessWidget {
   Game gameObj;

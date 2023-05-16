@@ -1,5 +1,6 @@
 
 import 'package:seekers/constant/constant_builder.dart';
+import 'package:seekers/constant/firebase_constant.dart';
 import 'package:seekers/factory/game_factory.dart';
 import 'package:seekers/factory/user_factory.dart';
 import 'package:seekers/view/peer/success_peer_page.dart';
@@ -37,6 +38,29 @@ class _DescribePageState extends State<DescribePeerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: Container(
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: appOrange.withOpacity(0.7),
+            shape: BoxShape.circle
+          ),
+          child: IconButton(
+            onPressed: (() => Navigator.pop(context)), 
+            icon: const Icon(Icons.arrow_back),
+            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            splashRadius: 24,
+            color: white,
+            padding: EdgeInsets.zero,
+            alignment: Alignment.center,
+            iconSize: 24,
+            enableFeedback: true,
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Form(
         key: _formKey,
         child: Stack(children: [
@@ -92,7 +116,9 @@ class _DescribePageState extends State<DescribePeerPage> {
                         ),
                         const SizedBox(height: 15),
                         TextFormField(
-                          maxLength: 150,
+                          maxLength: 200,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
                           controller: textController,
                           decoration: const InputDecoration(
                             fillColor: Color(0xffE9E9E9),
@@ -135,12 +161,13 @@ class _DescribePageState extends State<DescribePeerPage> {
                                                     isOfficial)));
                                   
                                   } else {
-                                    game.isPlayed = true;
-                                    game.colaboratorUid = user!.uid;
-                                    game.playedBy = user!.name;
-      
-                                    saveToFirestore(game);
-      
+                                    if(!isOfficial){
+                                      game.isPlayed = true;
+                                      game.colaboratorUid = user!.uid;
+                                      game.playedBy = user!.name;
+                                      game.colaboratorTime = Timestamp.now();
+                                      saveToFirestore(game);
+                                    }
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(

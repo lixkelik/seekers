@@ -46,8 +46,10 @@ InputDecoration inputDec(String text,  {String? hint, bool isPassword = false, b
 
         suffixIcon: (isPassword == true) 
         ? IconButton(
+          splashRadius: 23,
                 icon: Icon(
                   obscure! ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
                 ),
                 onPressed: () {
                   togglePass!(!obscure);

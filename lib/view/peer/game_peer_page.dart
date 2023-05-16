@@ -159,6 +159,7 @@ class _GamePeerState extends State<GamePeer> {
                               createdBy: e['createdBy'],
                               playedBy: e['playedBy'],
                               createdTime: e['createdTime'],
+                              colaboratorTime: e['colaboratorTime'],
                               isPlayed: e['isPlayed'],
                               colaboratorUid: e['colaboratorUid']);
                           return OfficialGameCard(gameObj, 'Carbonara');
@@ -175,12 +176,9 @@ class _GamePeerState extends State<GamePeer> {
 
   Future<void> findGame() async{
     if(textController.text == ""){
-      ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Fill the game code first!'),
-              backgroundColor: Colors.red,
-            ),
-          );
+      setState(() {
+        errorText = "Please enter the game code!";
+      });
     }else {
       try {
         DocumentReference docRef =
@@ -208,6 +206,7 @@ class _GamePeerState extends State<GamePeer> {
               place: data['place'],
               createdBy: data['createdBy'],
               createdTime: data['createdTime'],
+              colaboratorTime: data['colaboratorTime'],
               playedBy: data['playedBy'],
               isPlayed: data['isPlayed'],
               colaboratorUid: data['colaboratorUid'],

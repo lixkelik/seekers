@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:seekers/constant/constant_builder.dart';
 import 'package:seekers/tflite/recognition.dart';
@@ -18,7 +20,7 @@ class _ExplorePageState extends State<ExplorePage> {
   /// Results to draw bounding boxes
   List<Recognition>? results;
 
-  
+  Timer? _timer;
 
   String objText = '';
 
@@ -68,7 +70,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 16),
-                      child: TextButton.icon(
+                      child: TextButton(
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white, 
                           backgroundColor: appOrange,
@@ -76,15 +78,25 @@ class _ExplorePageState extends State<ExplorePage> {
                           shape: const CircleBorder(),
                           alignment: Alignment.center,
                         ),
-                        onPressed: () => textToSpeech(objText), 
-                        icon: Column(
+                        onPressed: () {
+                          if(objText == ''){
+                            textToSpeech("No object detected!");
+                          }else{
+                            textToSpeech(objText);
+                          }
+                        }, 
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Icon(Icons.volume_up_rounded, size: 27,),
-                            Text('Speak')
+                            Icon(Icons.volume_up_rounded, size: 37,),
+                            Text(
+                              'Hear',
+                              style: TextStyle(
+                                fontSize: 18
+                              ),
+                            )
                           ],
                         ), 
-                        label: const SizedBox.shrink()
                       ),
                     )
                   ],
@@ -116,29 +128,27 @@ class _ExplorePageState extends State<ExplorePage> {
 
   /// Callback to get inference results from [CameraView]
   void resultsCallback(List<Recognition> results, CameraImage image) {
-    bool lastChecker = true;
-    if(this.results != null && results.isNotEmpty){
-      if(this.results!.isNotEmpty){
-        if(this.results!.last.label == results.last.label){
-          lastChecker = false;
-        }
-      }
-    }
     if(mounted){
       setState(() {
         this.results = results;
-        if(lastChecker){
-          if(results.isNotEmpty){
+        if(results.isNotEmpty){
+          if(objText != results.last.label){
             textToSpeech(results.last.label);
-            objText = results.last.label;
           }
+          objText = results.last.label;
+          clearObjText();
         }
       });
     }
   }
 
+  void clearObjText() async{
+    _timer?.cancel();
+    _timer = Timer(const Duration(seconds: 2), (() =>  objText=''));
+  }
+
   void pageSpeech(){
-    textToSpeech('This is Explore Page!');
+    textToSpeech('You are at: Explore Page!');
   }
 
 }

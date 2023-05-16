@@ -77,31 +77,38 @@ class _GameImpairedState extends State<GameImpaired> {
                 )
               ),
               const SizedBox(height: 15),
-              Container(
-                margin: const EdgeInsets.only(top: 16),
-                child: TextButton.icon(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white, 
-                    backgroundColor: appOrange,
-                    fixedSize: const Size(100, 100),
-                    shape: const CircleBorder(),
-                    
-                  ),
-                  onPressed: () => speech.isNotListening ? _startListening() : _stopListening(), 
-                  icon: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children:  [
-                      Icon(speech.isNotListening ? Icons.mic_off : Icons.mic, size: 27,),
-                      const Text('Speak')
-                    ],
-                  ), 
-                  label: const SizedBox.shrink()
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white, 
+                  backgroundColor: appOrange,
+                  fixedSize: const Size(100, 100),
+                  shape: const CircleBorder(),
+                  
                 ),
+                onPressed: () => speech.isNotListening ? _startListening() : _stopListening(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:  [
+                    Icon(
+                      speech.isNotListening ? Icons.mic_off : Icons.mic, 
+                      size: 35,
+                    ),
+                    const Text(
+                      'Speak',
+                      style: TextStyle(
+                        fontSize: 16
+                      ),
+                    )
+                  ],
+                ), 
+                
               ),
               const SizedBox(height: 15),
               TextField(
                 maxLength: 30,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
                 controller: textController,
                 decoration: const InputDecoration(
                   fillColor: Color(0xffE9E9E9),
@@ -162,7 +169,7 @@ class _GameImpairedState extends State<GameImpaired> {
   }
 
   void pageSpeech(){
-    textToSpeech('This is Game Page!, lets play a game. Start by tell me where you are.');
+    textToSpeech('You are at: game page!, lets play a game and scan 5 objects. Start by tell me where you are.');
   }
 
 }

@@ -53,7 +53,15 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   Future<void> saveObj() async {
-    String code = await codeGenerator();
+    String code;
+    DocumentSnapshot<Object?> docSnapshot;
+
+    do{
+      code = await codeGenerator();
+      DocumentReference docRef = db.collection('games').doc(code);
+      docSnapshot = await docRef.get();
+    }while(docSnapshot.exists);
+    
     gameObj.code = code;
 
     gameObj.createdBy = auth.currentUser!.uid;

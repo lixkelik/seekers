@@ -172,6 +172,11 @@ class HistoryImpairedCard extends StatelessWidget {
   }
 
   void speakCode(){
-    textToSpeech('The game code is, ${gameObj.code}');
+    if(gameObj.isPlayed == true){
+      textToSpeech('Your game has played by ${gameObj.playedBy}! See result to see their answer!');
+    }else{
+      textToSpeech('The game code is, ${gameObj.code}! Give it to your friends!');
+    }
+    
   }
 }

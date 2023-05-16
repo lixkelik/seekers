@@ -105,15 +105,20 @@ class _MainPageState extends State<MainPage> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Center(child: CircularProgressIndicator(color: appOrange,)),
-              SizedBox(height: 10,),
+            children: [
+              const Center(
+                child: Image(
+                  image: AssetImage(
+                    welcome
+                  ),
+                  width: 150,
+                  height: 150,
+                ),
+              ),
+              const SizedBox(height: 10,),
               Center(
-                child: Text('Please wait...',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: fontColor
-                  ))
+                child: Text('Welcome to Seekers!',
+                  style: styleSB25)
               ),
             ],
           ),

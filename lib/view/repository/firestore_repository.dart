@@ -74,6 +74,7 @@ Future<List<Game>> getGameCollection(String userId) async {
       code: doc['code'],
       createdBy: doc['createdBy'],
       createdTime: doc['createdTime'],
+      colaboratorTime: doc['colaboratorTime'],
       place: doc['place'],
       playedBy: doc['playedBy'],
       isPlayed: doc['isPlayed'],

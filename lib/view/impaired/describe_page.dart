@@ -140,7 +140,7 @@ class _DescribePageState extends State<DescribePage> {
                           const SizedBox(height: 10,),
                           SizedBox(
                             width: double.maxFinite,
-                            child: TextButton.icon(
+                            child: TextButton(
                               style: TextButton.styleFrom(
                                 foregroundColor: Colors.white, 
                                 backgroundColor: appOrange,
@@ -148,22 +148,31 @@ class _DescribePageState extends State<DescribePage> {
                                 shape: const CircleBorder(),
                                 
                               ),
-                              onPressed: () => speech.isNotListening ? _startListening() : _stopListening(), 
-                              icon: Column(
+                              onPressed: () => speech.isNotListening ? _startListening() : _stopListening(),
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children:  [
-                                  Icon(speech.isNotListening ? Icons.mic_off : Icons.mic, size: 27,),
-                                  const Text('Speak')
+                                  Icon(
+                                    speech.isNotListening ? Icons.mic_off : Icons.mic, 
+                                    size: 35,
+                                  ),
+                                  const Text(
+                                    'Speak',
+                                    style: TextStyle(
+                                      fontSize: 16
+                                    ),
+                                  )
                                 ],
                               ), 
-                              label: const SizedBox.shrink()
-                            ),
+                            )
                           ),
                             
                           const SizedBox(height: 15),
                           TextField(
-                            maxLength: 150,
+                            maxLength: 200,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: textController,
                             decoration: const InputDecoration(
                               fillColor: Color(0xffE9E9E9),
@@ -194,7 +203,7 @@ class _DescribePageState extends State<DescribePage> {
                                       MaterialPageRoute(builder: (context) => ScanObjectPage(title, objects))
                                     );
                                   }else{
-                                    Game gameObj = Game(place: title, obj: objects, code: '', createdTime: Timestamp.now(), createdBy: '', playedBy: '-', isPlayed: false, colaboratorUid: '-');
+                                    Game gameObj = Game(place: title, obj: objects, code: '', createdTime: Timestamp.now(), createdBy: '', playedBy: '-', isPlayed: false, colaboratorUid: '-', colaboratorTime: Timestamp.now());
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => LoadingPage(gameObj))

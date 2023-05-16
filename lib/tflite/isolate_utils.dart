@@ -51,7 +51,6 @@ class IsolateUtils {
   }
 }
 
-/// Bundles data to pass between Isolate
 class IsolateData {
   CameraImage cameraImage;
   int interpreterAddress;

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:math';
 import 'dart:ui';
 
@@ -7,12 +9,8 @@ import 'package:seekers/tflite/recognition.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
-/// Classifier
 class Classifier {
-  /// Instance of Interpreter
   Interpreter? _interpreter;
-
-  /// Labels file loaded as list
   List<String>? _labels;
 
   static const String MODEL_FILE_NAME = "detect.tflite";
@@ -21,21 +19,13 @@ class Classifier {
   /// Input size of image (height = width = 300)
   static const int INPUT_SIZE = 300;
 
-  /// Result score threshold
   static const double THRESHOLD = 0.65;
 
   late ImageProcessor imageProcessor;
 
-  /// Padding the image to transform into square
   late int padSize;
-
-  /// Shapes of output tensors
   List<List<int>> _outputShapes = [];
-
-  /// Types of output tensors
   List<TfLiteType> _outputTypes = [];
-
-  /// Number of results to show
   static const int NUM_RESULTS = 1;
 
   Classifier({
@@ -46,7 +36,6 @@ class Classifier {
     loadLabels(labels: labels);
   }
 
-  /// Loads interpreter from asset
   void loadModel({Interpreter? interpreter}) async {
     try {
       _interpreter = interpreter ??
@@ -66,8 +55,6 @@ class Classifier {
       
     }
   }
-
-  /// Loads labels from assets
   void loadLabels({List<String>? labels}) async {
     try {
       _labels = labels ?? await FileUtil.loadLabels("assets/$LABEL_FILE_NAME");
@@ -76,7 +63,6 @@ class Classifier {
     }
   }
 
-  /// Pre-process the image
   TensorImage getProcessedImage(TensorImage inputImage) {
     padSize = max(inputImage.height, inputImage.width);
     imageProcessor = ImageProcessorBuilder()
@@ -96,7 +82,6 @@ class Classifier {
     // Create TensorImage from image
     TensorImage inputImage = TensorImage.fromImage(image);
 
-    // Pre-process TensorImage
     inputImage = getProcessedImage(inputImage);
 
     // TensorBuffers for output tensors
@@ -105,11 +90,8 @@ class Classifier {
     TensorBuffer outputScores = TensorBufferFloat(_outputShapes[2]);
     TensorBuffer numLocations = TensorBufferFloat(_outputShapes[3]);
 
-    // Inputs object for runForMultipleInputs
-    // Use [TensorImage.buffer] or [TensorBuffer.buffer] to pass by reference
     List<Object> inputs = [inputImage.buffer];
 
-    // Outputs map
     Map<int, Object> outputs = {
       0: outputLocations.buffer,
       1: outputClasses.buffer,
@@ -117,17 +99,13 @@ class Classifier {
       3: numLocations.buffer,
     };
 
-    // run inference
     _interpreter?.runForMultipleInputs(inputs, outputs);
 
 
-    // Maximum number of results to show
     int resultsCount = min(NUM_RESULTS, numLocations.getIntValue(0));
 
-    // Using labelOffset = 1 as ??? at index 0
     int labelOffset = 1;
 
-    // Using bounding box utils for easy conversion of tensorbuffer to List<Rect>
     List<Rect> locations = BoundingBoxUtils.convert(
       tensor: outputLocations,
       valueIndex: [1, 0, 3, 2],
@@ -141,17 +119,12 @@ class Classifier {
     List<Recognition> recognitions = [];
 
     for (int i = 0; i < resultsCount; i++) {
-      // Prediction score
       var score = outputScores.getDoubleValue(i);
 
-      // Label string
       var labelIndex = outputClasses.getIntValue(i) + labelOffset;
       var label = _labels!.elementAt(labelIndex);
 
       if (score > THRESHOLD) {
-        // inverse of rect
-        // [locations] corresponds to the image size 300 X 300
-        // inverseTransformRect transforms it our [inputImage]
         Rect transformedRect = imageProcessor.inverseTransformRect(
             locations[i], image.height, image.width);
 
@@ -165,9 +138,7 @@ class Classifier {
     };
   }
 
-  /// Gets the interpreter instance
   Interpreter get interpreter => _interpreter!;
 
-  /// Gets the loaded labels
   List<String> get labels => _labels!;
 }

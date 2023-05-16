@@ -26,15 +26,7 @@ class SuccessPeerPage extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const Text('You got 20 XP!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30,
-                    color: fontColor,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(
-              height: 15,
-            ),
+            
             Container(
               margin: const EdgeInsets.only(bottom: 25),
               width: double.infinity,
