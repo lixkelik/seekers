@@ -47,7 +47,7 @@ Bottle
 Wine Glass
 Cup
 Fork
-Lnife
+Knife
 Spoon
 Bowl
 Banana

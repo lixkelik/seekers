@@ -106,9 +106,7 @@ class _GameImpairedState extends State<GameImpaired> {
               ),
               const SizedBox(height: 15),
               TextField(
-                maxLength: 30,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
+                maxLength: 20,
                 controller: textController,
                 decoration: const InputDecoration(
                   fillColor: Color(0xffE9E9E9),
